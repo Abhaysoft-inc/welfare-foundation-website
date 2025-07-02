@@ -1,0 +1,11 @@
+// Icon components for the Welfare Foundation website
+export { default as PhoneIcon } from './PhoneIcon';
+export { default as EmailIcon } from './EmailIcon';
+export { default as FacebookIcon } from './FacebookIcon';
+export { default as TwitterIcon } from './TwitterIcon';
+export { default as PinterestIcon } from './PinterestIcon';
+export { default as InstagramIcon } from './InstagramIcon';
+export { default as LinkedInIcon } from './LinkedInIcon';
+export { default as HeartIcon } from './HeartIcon';
+export { default as UsersIcon } from './UsersIcon';
+export { default as ArrowRightIcon } from './ArrowRightIcon';
