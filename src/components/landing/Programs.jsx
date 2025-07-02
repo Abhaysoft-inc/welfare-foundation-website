@@ -1,27 +1,23 @@
+import { LotusIcon, HeartIcon, UsersIcon } from '../icons'
+
 export default function Programs() {
     const programs = [
         {
-            icon: (
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.832 18.477 19.246 18 17.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-            ),
-            iconBg: "bg-blue-100",
+            icon: <LotusIcon className="w-8 h-8 text-orange-600" />,
+            iconBg: "from-orange-100 to-orange-200",
+            borderColor: "border-orange-200",
             title: "Education Support",
             description: "Providing scholarships, school supplies, and educational resources to children from low-income families. We also run adult literacy programs and vocational training courses.",
             features: [
-                { text: "School fee assistance", color: "bg-blue-600" },
-                { text: "Learning materials", color: "bg-blue-600" },
-                { text: "Skill development", color: "bg-blue-600" }
+                { text: "School fee assistance", color: "bg-orange-600" },
+                { text: "Learning materials", color: "bg-orange-600" },
+                { text: "Skill development", color: "bg-orange-600" }
             ]
         },
         {
-            icon: (
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-            ),
-            iconBg: "bg-green-100",
+            icon: <HeartIcon className="w-8 h-8 text-green-600" strokeWidth={2} />,
+            iconBg: "from-green-100 to-green-200",
+            borderColor: "border-green-200",
             title: "Healthcare Services",
             description: "Free medical camps, health screenings, and basic healthcare services for remote communities. We focus on preventive care and health education.",
             features: [
@@ -31,48 +27,60 @@ export default function Programs() {
             ]
         },
         {
-            icon: (
-                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-            ),
-            iconBg: "bg-purple-100",
+            icon: <UsersIcon className="w-8 h-8 text-blue-600" strokeWidth={2} />,
+            iconBg: "from-blue-100 to-blue-200",
+            borderColor: "border-blue-200",
             title: "Community Development",
             description: "Building sustainable infrastructure, clean water projects, and empowering local communities through capacity building and leadership training programs.",
             features: [
-                { text: "Infrastructure projects", color: "bg-purple-600" },
-                { text: "Clean water access", color: "bg-purple-600" },
-                { text: "Leadership training", color: "bg-purple-600" }
+                { text: "Infrastructure projects", color: "bg-blue-600" },
+                { text: "Clean water access", color: "bg-blue-600" },
+                { text: "Leadership training", color: "bg-blue-600" }
             ]
         }
     ];
 
     return (
-        <section className="py-16 bg-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-16 bg-gradient-to-br from-orange-50 via-white to-green-50 relative overflow-hidden">
+            {/* Indian pattern background */}
+            <div className="absolute inset-0 opacity-5">
+                <div className="absolute inset-0" style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff6b35' fill-opacity='0.1'%3E%3Cpath d='M30 30l15-15-15-15-15 15 15 15zm0 0l15 15-15 15-15-15 15-15z'/%3E%3C/g%3E%3C/svg%3E")`,
+                }}></div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Our Programs
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                        <span className="bg-gradient-to-r from-orange-600 via-gray-800 to-green-600 bg-clip-text text-transparent">
+                            Our Programs
+                        </span>
                     </h2>
                     <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                        We offer comprehensive programs designed to address the most pressing needs of underserved communities.
+                        We offer comprehensive programs designed to address the most pressing needs of underserved communities
+                        with the spirit of <span className="text-orange-600 font-semibold">seva</span> and compassion.
                     </p>
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8">
                     {programs.map((program, index) => (
-                        <div key={index} className="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition-shadow">
-                            <div className={`w-16 h-16 ${program.iconBg} rounded-lg flex items-center justify-center mb-6`}>
+                        <div key={index} className={`bg-white rounded-xl p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 ${program.borderColor} relative overflow-hidden`}>
+                            {/* Decorative corner pattern */}
+                            <div className="absolute top-0 right-0 w-16 h-16 opacity-10">
+                                <div className={`w-full h-full bg-gradient-to-br ${program.iconBg} transform rotate-45 translate-x-8 -translate-y-8`}></div>
+                            </div>
+
+                            <div className={`w-16 h-16 bg-gradient-to-br ${program.iconBg} rounded-xl flex items-center justify-center mb-6 border-2 ${program.borderColor} shadow-lg`}>
                                 {program.icon}
                             </div>
                             <h3 className="text-xl font-semibold text-gray-900 mb-4">{program.title}</h3>
-                            <p className="text-gray-600 mb-6">
+                            <p className="text-gray-600 mb-6 relative z-10">
                                 {program.description}
                             </p>
-                            <ul className="text-sm text-gray-600 space-y-2">
+                            <ul className="text-sm text-gray-600 space-y-3 relative z-10">
                                 {program.features.map((feature, featureIndex) => (
                                     <li key={featureIndex} className="flex items-center">
-                                        <span className={`w-2 h-2 ${feature.color} rounded-full mr-3`}></span>
+                                        <span className={`w-3 h-3 ${feature.color} rounded-full mr-3 flex-shrink-0`}></span>
                                         {feature.text}
                                     </li>
                                 ))}

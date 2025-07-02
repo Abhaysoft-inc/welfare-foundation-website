@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
+import { ArrowLeftIcon, ArrowRightIcon, LotusIcon, OmIcon } from '../icons';
 
 export default function Carousel() {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -9,7 +10,7 @@ export default function Carousel() {
         {
             src: "/images/2.jpg",
             title: "Welcome to Our Foundation",
-            subtitle: "Making a difference in communities worldwide"
+            subtitle: "Making a difference in communities across India"
         },
         {
             src: "/images/2.jpg", // Replace with actual image path
@@ -45,67 +46,99 @@ export default function Carousel() {
     };
 
     return (
-        <div className="relative w-full h-80 overflow-hidden">
+        <div className="relative w-full h-96 md:h-[500px] overflow-hidden rounded-2xl shadow-2xl">
+            {/* Elegant overlay with subtle Indian pattern */}
+            <div className="absolute inset-0 z-10 opacity-10">
+                <svg className="w-full h-full" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="elegantPattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+                            <circle cx="25" cy="25" r="8" fill="none" stroke="#ff6b35" strokeWidth="0.5" opacity="0.7" />
+                            <circle cx="25" cy="25" r="3" fill="#138808" opacity="0.4" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#elegantPattern)" />
+                </svg>
+            </div>
+
             {/* Images */}
             <div
-                className="flex transition-transform duration-500 ease-in-out h-full"
+                className="flex transition-transform duration-700 ease-in-out h-full"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
                 {images.map((slide, index) => (
                     <div key={index} className="relative w-full h-full flex-shrink-0">
                         <img
                             src={slide.src}
-                            className="w-full h-80 object-cover"
+                            className="w-full h-full object-cover"
                             alt={`Slide ${index + 1}`}
                         />
-                        <div className="absolute inset-0 bg-blue-600 opacity-30"></div>
+                        {/* Refined gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-orange-900/40 via-transparent to-green-900/40"></div>
+                        <div className="absolute inset-0 bg-black/20"></div>
 
-                        {/* Text Overlay */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-center text-white px-6">
-                                <h1 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
-                                    {slide.title}
+                        {/* Subtle decorative elements */}
+                        <div className="absolute top-6 left-6 z-20 opacity-40">
+                            <LotusIcon className="w-6 h-6 text-orange-300" />
+                        </div>
+                        <div className="absolute top-6 right-6 z-20 opacity-40">
+                            <OmIcon className="w-6 h-6 text-green-300" />
+                        </div>
+
+                        {/* Enhanced text overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center z-20">
+                            <div className="text-center text-white px-6 max-w-4xl">
+                                <h1 className="text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg leading-tight">
+                                    <span className="bg-gradient-to-r from-orange-200 via-white to-green-200 bg-clip-text text-transparent">
+                                        {slide.title}
+                                    </span>
                                 </h1>
-                                <p className="text-lg md:text-xl font-medium drop-shadow-md max-w-2xl">
+                                <p className="text-lg md:text-2xl font-medium drop-shadow-md text-white/95 leading-relaxed">
                                     {slide.subtitle}
                                 </p>
+
+                                {/* Elegant decorative line */}
+                                <div className="mt-8 flex items-center justify-center">
+                                    <div className="flex items-center space-x-4">
+                                        <div className="h-px bg-gradient-to-r from-transparent via-orange-300 to-transparent w-20"></div>
+                                        <LotusIcon className="w-5 h-5 text-orange-300" />
+                                        <div className="h-px bg-gradient-to-r from-transparent via-green-300 to-transparent w-20"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Navigation Arrows */}
+            {/* Refined navigation arrows */}
             <button
                 onClick={goToPrevious}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-1.5 shadow-lg transition-all duration-200"
+                className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 z-30 backdrop-blur-sm border border-orange-200"
             >
-                <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
+                <ArrowLeftIcon className="w-5 h-5" />
             </button>
 
             <button
                 onClick={goToNext}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-1.5 shadow-lg transition-all duration-200"
+                className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg hover:shadow-xl transition-all duration-300 z-30 backdrop-blur-sm border border-green-200"
             >
-                <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <ArrowRightIcon className="w-5 h-5" />
             </button>
 
-            {/* Dots Indicator */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                {images.map((_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => goToSlide(index)}
-                        className={`w-3 h-3 rounded-full transition-all duration-200 ${currentSlide === index
-                                ? 'bg-white'
-                                : 'bg-white bg-opacity-50 hover:bg-opacity-75'
-                            }`}
-                    />
-                ))}
+            {/* Enhanced dots indicator */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30">
+                <div className="flex space-x-3 bg-black/20 backdrop-blur-sm rounded-full px-4 py-2">
+                    {images.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => goToSlide(index)}
+                            className={`w-3 h-3 rounded-full transition-all duration-300 ${currentSlide === index
+                                    ? 'bg-white scale-125 shadow-lg'
+                                    : 'bg-white/50 hover:bg-white/75'
+                                }`}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );

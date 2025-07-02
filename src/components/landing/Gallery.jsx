@@ -1,3 +1,5 @@
+import { EyeIcon, ImageIcon, LotusIcon, OmIcon } from '../icons';
+
 export default function Gallery() {
     const galleryImages = [
         {
@@ -43,46 +45,82 @@ export default function Gallery() {
     ];
 
     return (
-        <section className="py-16 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="relative py-16 bg-gradient-to-br from-orange-50 via-white to-green-50 overflow-hidden">
+            {/* Traditional Indian Background Pattern */}
+            <div className="absolute inset-0 opacity-5">
+                <svg className="w-full h-full" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="galleryPattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+                            <circle cx="40" cy="40" r="15" fill="none" stroke="#ff6b35" strokeWidth="1" />
+                            <path d="M25,25 Q40,15 55,25 Q40,35 25,25" fill="#138808" opacity="0.3" />
+                            <path d="M25,55 Q40,65 55,55 Q40,45 25,55" fill="#138808" opacity="0.3" />
+                            <circle cx="40" cy="40" r="3" fill="#ff6b35" />
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#galleryPattern)" />
+                </svg>
+            </div>
+
+            {/* Decorative Elements */}
+            <div className="absolute top-8 left-8 opacity-10">
+                <OmIcon className="w-24 h-24 text-orange-600" />
+            </div>
+            <div className="absolute bottom-8 right-8 opacity-10">
+                <LotusIcon className="w-28 h-28 text-green-600" />
+            </div>
+
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-600 via-red-500 to-green-600 bg-clip-text text-transparent mb-4">
                         Our Work in Action
                     </h2>
-                    <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                        See how we're making a difference in communities through our various programs and initiatives.
+                    <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+                        See how we're making a difference in communities through our various programs and initiatives across India.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {galleryImages.map((image, index) => (
-                        <div key={index} className="relative group overflow-hidden rounded-lg aspect-square cursor-pointer">
+                        <div key={index} className="relative group overflow-hidden rounded-xl aspect-square cursor-pointer border-2 border-orange-200 hover:border-green-400 transition-all duration-300">
                             <img
                                 src={image.src}
                                 alt={image.alt}
                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                             />
-                            <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-60 transition-opacity duration-300"></div>
+                            <div className="absolute inset-0 bg-gradient-to-br from-orange-600/40 to-green-600/40 group-hover:from-orange-600/60 group-hover:to-green-600/60 transition-all duration-300"></div>
                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <div className="text-white text-center">
-                                    <svg className="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                    <p className="text-sm font-medium">{image.category}</p>
+                                    <EyeIcon className="w-8 h-8 mx-auto mb-2" />
+                                    <p className="text-sm font-medium px-2">{image.category}</p>
                                 </div>
+                            </div>
+
+                            {/* Decorative Corner Elements */}
+                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-30 transition-opacity duration-300">
+                                <LotusIcon className="w-4 h-4 text-white" />
                             </div>
                         </div>
                     ))}
                 </div>
 
                 <div className="text-center mt-12">
-                    <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium inline-flex items-center space-x-2">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
+                    <button className="bg-gradient-to-r from-orange-500 to-green-500 text-white px-8 py-3 rounded-xl hover:from-orange-600 hover:to-green-600 transition-all duration-300 font-medium inline-flex items-center space-x-2 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <ImageIcon className="w-5 h-5" />
                         <span>View Full Gallery</span>
                     </button>
+                </div>
+
+                {/* Decorative Border */}
+                <div className="mt-8 text-center">
+                    <div className="flex items-center justify-center space-x-4">
+                        <div className="h-px bg-gradient-to-r from-transparent via-orange-400 to-transparent flex-1"></div>
+                        <div className="flex space-x-2">
+                            <LotusIcon className="w-4 h-4 text-orange-500" />
+                            <OmIcon className="w-4 h-4 text-green-500" />
+                            <LotusIcon className="w-4 h-4 text-orange-500" />
+                        </div>
+                        <div className="h-px bg-gradient-to-r from-transparent via-green-400 to-transparent flex-1"></div>
+                    </div>
                 </div>
             </div>
         </section>

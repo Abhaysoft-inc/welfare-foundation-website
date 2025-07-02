@@ -1,20 +1,22 @@
 "use client"
 import Navbar from "@/components/landing/Navbar";
-import Carousel from "@/components/landing/Carousel";
+import IndianHeroSection from "@/components/landing/IndianHeroSection";
 import About from "@/components/landing/About";
 import Impact from "@/components/landing/Impact";
 import Programs from "@/components/landing/Programs";
 import Gallery from "@/components/landing/Gallery";
+import Footer from "@/components/landing/Footer";
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <Carousel />
+      <IndianHeroSection />
       <About />
       <Impact />
       <Programs />
       <Gallery />
+      <Footer />
     </>
   );
 }

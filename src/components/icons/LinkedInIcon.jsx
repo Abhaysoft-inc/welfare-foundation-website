@@ -2,9 +2,9 @@ import React from 'react';
 
 const LinkedInIcon = ({ className = "w-4 h-4", ...props }) => {
     return (
-        <svg 
-            className={className} 
-            fill="currentColor" 
+        <svg
+            className={className}
+            fill="currentColor"
             viewBox="0 0 24 24"
             {...props}
         >
