@@ -117,26 +117,27 @@ const Navbar = () => {
                         <div className="flex items-center">
                             <div className="flex-shrink-0">
                                 <div className="flex items-center space-x-3 group">
-                                    {/* Enhanced Logo Icon with Indian Colors */}
+                                    {/* Enhanced Logo with Real Logo Image */}
                                     <div className="relative">
-                                        <div className="w-16 h-16 bg-gradient-to-br from-orange-500 via-white to-green-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105 border-2 border-orange-300">
-                                            <div className="relative">
-                                                <LotusIcon className="w-10 h-10 text-orange-600" />
-                                                <div className="absolute inset-0 flex items-center justify-center">
-                                                    <OmIcon className="w-4 h-4 text-green-700" />
-                                                </div>
+                                        <div className="w-16 h-16 lg:w-20 lg:h-20 bg-white rounded-2xl flex items-center justify-center transition-all duration-300  overflow-hidden">
+                                            <div className="relative w-full h-full">
+                                                <img
+                                                    src="/images/logo.jpg"
+                                                    alt="Pandit Sachidanand Welfare Foundation Logo"
+                                                    className="w-full h-full rounded-xl"
+                                                // style={{ imageRendering: 'crisp-edges' }}
+                                                />
+                                                {/* Fallback icons in case image doesn't load */}
+                                                {/* <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                    <LotusIcon className="w-8 h-8 lg:w-10 lg:h-10 text-orange-600/50" />
+                                                    <OmIcon className="w-3 h-3 lg:w-4 lg:h-4 text-green-700/50 absolute" />
+                                                </div> */}
                                             </div>
-                                            {/* Subtle shine effect with Indian pattern */}
-                                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-200/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-                                        </div>
-                                        {/* Indian flag colored notification dot */}
-                                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-orange-500 via-white to-green-500 rounded-full flex items-center justify-center border border-orange-400">
-                                            <span className="text-xs text-orange-700 font-bold">॥</span>
                                         </div>
                                     </div>
                                     {/* Enhanced Foundation Name with Hindi */}
                                     <div>
-                                        <h1 className="text-xl font-bold bg-gradient-to-r from-orange-600 via-gray-500 to-green-600 bg-clip-text text-transparent group-hover:from-orange-700 group-hover:to-green-700 transition-all duration-300">
+                                        <h1 className="text-xl font-bold bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent group-hover:from-orange-700 group-hover:to-green-700 transition-all duration-300">
                                             Pandit Sachidanand
                                         </h1>
                                         <p className="text-sm font-semibold bg-gradient-to-r from-orange-500 to-green-500 bg-clip-text text-transparent">

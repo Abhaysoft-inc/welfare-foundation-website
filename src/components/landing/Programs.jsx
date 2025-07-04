@@ -52,7 +52,7 @@ export default function Programs() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        <span className="bg-gradient-to-r from-orange-600 via-gray-600 to-green-600 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
                             Our Programs
                         </span>
                     </h2>

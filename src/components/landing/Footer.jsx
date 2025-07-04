@@ -25,17 +25,20 @@ export default function Footer() {
                     <div className="mb-8 md:mb-0">
                         <div className="flex items-center mb-4">
                             <div className="relative mr-3">
-                                <img 
-                                    src="/images/logo.jpg" 
-                                    alt="Pandit Sachidanand Welfare Foundation Logo" 
-                                    className="w-12 h-12 rounded-full object-cover"
-                                    style={{
-                                        mixBlendMode: 'multiply',
-                                        filter: 'contrast(1.2) brightness(1.1)'
+                                <img
+                                    src="/images/logo.jpg"
+                                    alt="Pandit Sachidanand Welfare Foundation Logo"
+                                    className="w-12 h-12 md:w-16 md:h-16 rounded-full  border-2 border-gray-600"
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.nextElementSibling.classList.remove('hidden');
+                                        e.target.nextElementSibling.classList.add('flex');
                                     }}
                                 />
                                 {/* Fallback icon in case image doesn't load */}
-                                <LotusIcon className="w-6 h-6 text-orange-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 peer-[img:error]:opacity-100" />
+                                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-orange-500 items-center justify-center hidden">
+                                    <LotusIcon className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                                </div>
                             </div>
                             <div>
                                 <h3 className="text-white font-semibold">

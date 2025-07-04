@@ -35,11 +35,11 @@ const IndianHeroSection = () => {
                 <div className="text-center">
                     {/* Traditional Indian Greeting */}
                     <div className="flex justify-center items-center space-x-3 mb-4">
-                        <OmIcon className="w-6 h-6 text-orange-600" />
-                        <h1 className="text-xl font-bold bg-gradient-to-r from-orange-600 to-green-600 bg-clip-text text-transparent">
+                        <OmIcon className="w-6 h-6 text-blue-600" />
+                        <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-600 bg-clip-text text-transparent">
                             Welcome • स्वागतम्
                         </h1>
-                        <OmIcon className="w-6 h-6 text-green-600" />
+                        <OmIcon className="w-6 h-6 text-blue-600" />
                     </div>
 
                     {/* Main Heading with Indian Typography */}
@@ -62,7 +62,7 @@ const IndianHeroSection = () => {
                     </p>
 
                     {/* Indian-styled CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-6 mb-8 mt-10">
+                    <div className="flex flex-col sm:flex-row justify-center items-center space-y-3 sm:space-y-0 sm:space-x-6 mb-2 mt-10">
                         <button className="group relative bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-8 py-3 rounded-2xl font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 border-2 border-orange-400 cursor-pointer">
                             <span className="flex items-center space-x-3 cursor-pointer">
                                 <HeartIcon className="w-5 h-5" strokeWidth={2} />
@@ -73,14 +73,14 @@ const IndianHeroSection = () => {
 
                         <button className="group relative border-3 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-8 py-3 rounded-2xl font-bold text-lg hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer">
                             <span className="flex items-center space-x-3">
-                                <LotusIcon className="w-5 h-5" />
+                                {/* <LotusIcon className="w-5 h-5" /> */}
                                 <span>Become Member • सदस्य बनें</span>
                             </span>
                         </button>
                     </div>
 
                     {/* Compact Indian Cultural Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mt-20">
+                    {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mt-20">
                         <div className="text-center p-4 bg-white/80 backdrop-blur-sm rounded-xl border border-orange-200 shadow-lg">
                             <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-3">
                                 <HeartIcon className="w-6 h-6 text-white" strokeWidth={2} />
@@ -104,7 +104,7 @@ const IndianHeroSection = () => {
                             <h3 className="text-2xl font-bold text-blue-600 mb-1">100+</h3>
                             <p className="text-gray-700 font-semibold text-sm">Villages Served</p>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

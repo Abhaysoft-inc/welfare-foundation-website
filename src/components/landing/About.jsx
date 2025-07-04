@@ -34,11 +34,16 @@ export default function About() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                 {/* Header Section with Indian Touch */}
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-100 to-green-100 rounded-full mb-6 border-2 border-orange-200">
-                        <LotusIcon className="w-10 h-10 text-orange-600" />
+                    <div className="inline-flex items-center justify-center w-30 h-30 rounded-full mb-6">
+                        <img
+                            src="/images/logo.jpg"
+                            alt="Pandit Sachidanand Welfare Foundation Logo"
+                            className="w-full h-full rounded-full  border-2 border-gray-300"
+                            style={{ imageRendering: 'crisp-edges' }}
+                        />
                     </div>
                     <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                        <span className="bg-gradient-to-r from-orange-600 via-gray-800 to-green-600 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-orange-600  to-orange-600 bg-clip-text text-transparent">
                             About Our Foundation
                         </span>
                     </h2>
@@ -93,7 +98,7 @@ export default function About() {
                     <div className="relative">
                         <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                             <img
-                                src="/images/2.jpg"
+                                src="/images/childs.jpg"
                                 alt="Our team helping communities"
                                 className="w-full h-96 object-cover"
                             />
@@ -121,7 +126,7 @@ export default function About() {
                 {/* Values Section with Indian Touch */}
                 <div>
                     <h3 className="text-3xl font-bold text-center mb-12">
-                        <span className="bg-gradient-to-r from-orange-600 to-green-600 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-orange-600 to-orange-600 bg-clip-text text-transparent">
                             Our Core Values
                         </span>
                     </h3>
