@@ -56,13 +56,13 @@ const Navbar = () => {
                                 <div className="p-1 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
                                     <PhoneIcon className="w-3.5 h-3.5" />
                                 </div>
-                                <span className="font-medium">+91 8948041722</span>
+                                <span className="font-medium">+91 9415432141</span>
                             </div>
                             <div className="flex items-center space-x-2 group">
                                 <div className="p-1 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
                                     <EmailIcon className="w-3.5 h-3.5" />
                                 </div>
-                                <span className="font-medium">psf.welfare@gmail.com</span>
+                                <span className="font-medium">sn1984.pandey@gmail.com</span>
                             </div>
                         </div>
 

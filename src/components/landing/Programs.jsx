@@ -52,7 +52,7 @@ export default function Programs() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        <span className="bg-gradient-to-r from-orange-600 via-gray-800 to-green-600 bg-clip-text text-transparent">
+                        <span className="bg-gradient-to-r from-orange-600 via-gray-600 to-green-600 bg-clip-text text-transparent">
                             Our Programs
                         </span>
                     </h2>
@@ -90,7 +90,7 @@ export default function Programs() {
                 </div>
 
                 <div className="text-center mt-12">
-                    <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                    <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium cursor-pointer">
                         View All Programs
                     </button>
                 </div>

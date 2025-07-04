@@ -43,7 +43,7 @@ export default function About() {
                         </span>
                     </h2>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                        For over 15 years, we've been dedicated to creating positive change in communities through
+                        We've been dedicated to creating positive change in communities through
                         education, healthcare, and social welfare programs that transform lives with the spirit of
                         <span className="text-orange-600 font-semibold"> selfless service</span>.
                     </p>
@@ -156,10 +156,10 @@ export default function About() {
                 {/* Call to Action with Indian Touch */}
                 <div className="text-center mt-16">
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-8 py-4 rounded-xl hover:from-orange-600 hover:via-orange-700 hover:to-red-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 border border-orange-400">
+                        <button className="bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-8 py-4 rounded-xl hover:from-orange-600 hover:via-orange-700 hover:to-red-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 border border-orange-400 cursor-pointer">
                             Learn More About Us
                         </button>
-                        <button className="border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-600 px-8 py-4 rounded-xl hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-300 font-semibold shadow-lg hover:shadow-xl">
+                        <button className="border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-600 px-8 py-4 rounded-xl hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-300 font-semibold shadow-lg hover:shadow-xl cursor-pointer">
                             View Our Programs
                         </button>
                     </div>

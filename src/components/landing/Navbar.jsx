@@ -37,14 +37,16 @@ const Navbar = () => {
         { name: 'About', href: '#about' },
         { name: 'Programs', href: '#programs' },
         { name: 'Gallery', href: '#gallery' },
-        { name: 'News', href: '#news' },
+        // { name: 'News', href: '#news' },
         { name: 'Contact', href: '#contact' },
+        // { name: 'Donate', href: '/donate' },
+        // { name: 'Register', href: '/register' },
     ];
 
     return (
         <>
             {/* Minimal Top Bar with Indian Touch */}
-            <div className="bg-gradient-to-r from-orange-500 via-white to-green-600 text-gray-800 py-1.5 text-xs relative overflow-hidden border-b border-orange-300">
+            <div className="bg-gradient-to-r from-orange-300 via-white to-green-400 text-gray-800 py-1.5 text-xs relative overflow-hidden border-b border-orange-300">
                 {/* Subtle background pattern */}
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute inset-0" style={{
@@ -58,11 +60,11 @@ const Navbar = () => {
                         <div className="hidden sm:flex items-center space-x-6">
                             <div className="flex items-center space-x-1.5">
                                 <PhoneIcon className="w-3 h-3 text-orange-700" />
-                                <span className="font-medium text-gray-800">+91 8948041722</span>
+                                <span className="font-medium text-gray-800">+91 9415432141</span>
                             </div>
                             <div className="flex items-center space-x-1.5">
                                 <EmailIcon className="w-3 h-3 text-green-700" />
-                                <span className="font-medium text-gray-800">psf.welfare@gmail.com</span>
+                                <span className="font-medium text-gray-800">sn1984.pandey@gmail.com</span>
                             </div>
                             <div className="flex items-center space-x-1.5">
                                 <ClockIcon className="w-3 h-3 text-blue-700" />
@@ -70,10 +72,16 @@ const Navbar = () => {
                             </div>
                         </div>
 
+                        {/* Company Registration and CIN Info - Desktop Only */}
+                        <div className="hidden sm:flex flex-1 justify-center items-center">
+                            <span className="font-bold text-gray-900 mr-8">Company Registration No : 210627</span>
+                            <span className="font-bold text-gray-900">CIN : U88900UP2024NPL21627</span>
+                        </div>
+
                         {/* Mobile - Show only phone */}
                         <div className="sm:hidden flex items-center space-x-1.5">
                             <PhoneIcon className="w-3 h-3 text-orange-700" />
-                            <span className="font-medium text-gray-800">+91 8948041722</span>
+                            <span className="font-medium text-gray-800">+91 9415432141</span>
                         </div>
 
                         {/* Social Links - Minimal */}
@@ -128,7 +136,7 @@ const Navbar = () => {
                                     </div>
                                     {/* Enhanced Foundation Name with Hindi */}
                                     <div>
-                                        <h1 className="text-xl font-bold bg-gradient-to-r from-orange-600 via-gray-800 to-green-600 bg-clip-text text-transparent group-hover:from-orange-700 group-hover:to-green-700 transition-all duration-300">
+                                        <h1 className="text-xl font-bold bg-gradient-to-r from-orange-600 via-gray-500 to-green-600 bg-clip-text text-transparent group-hover:from-orange-700 group-hover:to-green-700 transition-all duration-300">
                                             Pandit Sachidanand
                                         </h1>
                                         <p className="text-sm font-semibold bg-gradient-to-r from-orange-500 to-green-500 bg-clip-text text-transparent">
@@ -151,9 +159,9 @@ const Navbar = () => {
                                         {item.name}
                                         <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-orange-500 to-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 rounded-full"></span>
                                         {/* Active indicator for home with Indian colors */}
-                                        {index === 0 && (
+                                        {/* {index === 0 && (
                                             <span className="absolute -top-1 -right-1 w-2 h-2 bg-gradient-to-r from-orange-400 to-green-400 rounded-full animate-pulse"></span>
-                                        )}
+                                        )} */}
                                     </a>
                                 ))}
                             </div>
@@ -162,13 +170,13 @@ const Navbar = () => {
                         {/* Enhanced Desktop CTA Buttons with Indian Touch */}
                         <div className="hidden lg:flex items-center space-x-3">
                             {/* Donate Button with Indian styling */}
-                            <button className="relative bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-600 hover:via-orange-700 hover:to-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 border border-orange-400">
+                            <a href="/donate" className="relative bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-600 hover:via-orange-700 hover:to-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 border border-orange-400">
                                 <span className="flex items-center space-x-2">
                                     <HeartIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Donate Now</span>
                                 </span>
                                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-yellow-400/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
-                            </button>
+                            </a>
 
                             {/* Join Us Button with Indian styling */}
                             <button className="relative border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200 hover:shadow-md">
@@ -230,12 +238,12 @@ const Navbar = () => {
 
                         {/* Mobile CTA Buttons with Indian Touch */}
                         <div className="pt-6 space-y-3 border-t-2 border-orange-200">
-                            <button className="w-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-orange-400">
+                            <a href="/donate" className="block w-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-orange-400">
                                 <span className="flex items-center justify-center space-x-2">
                                     <HeartIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Donate Now</span>
                                 </span>
-                            </button>
+                            </a>
                             <button className="w-full border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200">
                                 <span className="flex items-center justify-center space-x-2">
                                     <UsersIcon className="w-4 h-4" strokeWidth={2} />

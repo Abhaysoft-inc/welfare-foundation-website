@@ -13,9 +13,9 @@ export default function Home() {
       <Navbar />
       <IndianHeroSection />
       <About />
-      <Impact />
+      {/* <Impact /> */}
       <Programs />
-      <Gallery />
+      {/* <Gallery /> */}
       <Footer />
     </>
   );
