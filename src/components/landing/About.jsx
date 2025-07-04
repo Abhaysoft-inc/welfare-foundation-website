@@ -20,7 +20,7 @@ export default function About() {
     ];
 
     return (
-        <section className="py-20 bg-gradient-to-br from-orange-50 via-white to-green-50 relative overflow-hidden">
+        <section id="about" className="py-20 bg-gradient-to-br from-orange-50 via-white to-green-50 relative overflow-hidden">
             {/* Indian-inspired Background Pattern */}
             <div className="absolute inset-0 opacity-10">
                 <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-orange-400 to-red-400 rounded-full -translate-x-32 -translate-y-32"></div>

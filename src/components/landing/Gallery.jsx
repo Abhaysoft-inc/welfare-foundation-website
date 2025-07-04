@@ -45,7 +45,7 @@ export default function Gallery() {
     ];
 
     return (
-        <section className="relative py-16 bg-gradient-to-br from-orange-50 via-white to-green-50 overflow-hidden">
+        <section id="gallery" className="relative py-16 bg-gradient-to-br from-orange-50 via-white to-green-50 overflow-hidden">
             {/* Traditional Indian Background Pattern */}
             <div className="absolute inset-0 opacity-5">
                 <svg className="w-full h-full" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">

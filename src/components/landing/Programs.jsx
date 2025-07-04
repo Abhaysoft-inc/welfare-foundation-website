@@ -41,7 +41,7 @@ export default function Programs() {
     ];
 
     return (
-        <section className="py-16 bg-gradient-to-br from-orange-50 via-white to-green-50 relative overflow-hidden">
+        <section id="programs" className="py-16 bg-gradient-to-br from-orange-50 via-white to-green-50 relative overflow-hidden">
             {/* Indian pattern background */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute inset-0" style={{

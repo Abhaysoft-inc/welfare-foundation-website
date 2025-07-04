@@ -7,7 +7,6 @@ import {
     ClockIcon,
     FacebookIcon,
     TwitterIcon,
-    PinterestIcon,
     InstagramIcon,
     LinkedInIcon,
     HeartIcon,
@@ -16,12 +15,45 @@ import {
     LotusIcon,
     OmIcon
 } from '../icons'
+import { useNavigation } from '../../hooks/useNavigation';
 
 const inter = Inter({ subsets: ['latin'] });
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const navigation = useNavigation();
+
+    const handleNavigation = (item) => {
+        setIsMobileMenuOpen(false); // Close mobile menu when navigating
+
+        switch (item.href) {
+            case '#':
+                navigation.navigateToHome();
+                break;
+            case '#about':
+                navigation.navigateToAbout();
+                break;
+            case '#programs':
+                navigation.navigateToPrograms();
+                break;
+            case '#gallery':
+                navigation.navigateToGallery();
+                break;
+            case '#contact':
+                navigation.navigateToContact();
+                break;
+            case '/donate':
+                navigation.navigateToDonate();
+                break;
+            case '/register':
+                navigation.navigateToRegister();
+                break;
+            default:
+                navigation.navigateTo(item.href);
+        }
+    };
 
     // Handle scroll effect
     useEffect(() => {
@@ -36,7 +68,7 @@ const Navbar = () => {
         { name: 'Home', href: '#' },
         { name: 'About', href: '#about' },
         { name: 'Programs', href: '#programs' },
-        { name: 'Gallery', href: '#gallery' },
+        // { name: 'Gallery', href: '#gallery' },
         // { name: 'News', href: '#news' },
         { name: 'Contact', href: '#contact' },
         // { name: 'Donate', href: '/donate' },
@@ -152,18 +184,14 @@ const Navbar = () => {
                         <div className="hidden lg:block">
                             <div className="ml-10 flex items-center space-x-1">
                                 {navigationItems.map((item, index) => (
-                                    <a
+                                    <button
                                         key={item.name}
-                                        href={item.href}
+                                        onClick={() => handleNavigation(item)}
                                         className="relative px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 rounded-lg hover:bg-orange-50 group"
                                     >
                                         {item.name}
                                         <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-orange-500 to-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 rounded-full"></span>
-                                        {/* Active indicator for home with Indian colors */}
-                                        {/* {index === 0 && (
-                                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-gradient-to-r from-orange-400 to-green-400 rounded-full animate-pulse"></span>
-                                        )} */}
-                                    </a>
+                                    </button>
                                 ))}
                             </div>
                         </div>
@@ -171,16 +199,16 @@ const Navbar = () => {
                         {/* Enhanced Desktop CTA Buttons with Indian Touch */}
                         <div className="hidden lg:flex items-center space-x-3">
                             {/* Donate Button with Indian styling */}
-                            <a href="/donate" className="relative bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-600 hover:via-orange-700 hover:to-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 border border-orange-400">
+                            <button onClick={navigation.navigateToDonate} className="relative bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-600 hover:via-orange-700 hover:to-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 border border-orange-400">
                                 <span className="flex items-center space-x-2">
                                     <HeartIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Donate Now</span>
                                 </span>
                                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-yellow-400/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
-                            </a>
+                            </button>
 
                             {/* Join Us Button with Indian styling */}
-                            <button className="relative border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200 hover:shadow-md">
+                            <button className="relative border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200 hover:shadow-md" onClick={navigation.navigateToMemberRegister}>
                                 <span className="flex items-center space-x-2">
                                     <UsersIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Join Us</span>
@@ -224,28 +252,27 @@ const Navbar = () => {
                     } overflow-hidden`}>
                     <div className="px-4 pt-4 pb-6 space-y-2 bg-gradient-to-b from-orange-50 to-green-50 border-t-2 border-orange-200 shadow-lg">
                         {navigationItems.map((item, index) => (
-                            <a
+                            <button
                                 key={item.name}
-                                href={item.href}
-                                className="group block px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-100 rounded-xl font-medium transition-all duration-200 border border-transparent hover:border-orange-200"
-                                onClick={() => setIsMobileMenuOpen(false)}
+                                onClick={() => handleNavigation(item)}
+                                className="group block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-100 rounded-xl font-medium transition-all duration-200 border border-transparent hover:border-orange-200"
                             >
                                 <div className="flex items-center justify-between">
                                     <span>{item.name}</span>
                                     <ArrowRightIcon className="w-4 h-4 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200" strokeWidth={2} />
                                 </div>
-                            </a>
+                            </button>
                         ))}
 
                         {/* Mobile CTA Buttons with Indian Touch */}
                         <div className="pt-6 space-y-3 border-t-2 border-orange-200">
-                            <a href="/donate" className="block w-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-orange-400">
+                            <button onClick={navigation.navigateToDonate} className="block w-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-orange-400">
                                 <span className="flex items-center justify-center space-x-2">
                                     <HeartIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Donate Now</span>
                                 </span>
-                            </a>
-                            <button className="w-full border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200">
+                            </button>
+                            <button onClick={navigation.navigateToMemberRegister} className="w-full border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200">
                                 <span className="flex items-center justify-center space-x-2">
                                     <UsersIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Join Our Team</span>
