@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react'
-import { Inter } from 'next/font/google'
+import { Poppins, Playfair_Display, Inter } from 'next/font/google'
 import {
     PhoneIcon,
     EmailIcon,
@@ -17,7 +17,22 @@ import {
 } from '../icons'
 import { useNavigation } from '../../hooks/useNavigation';
 
-const inter = Inter({ subsets: ['latin'] });
+const poppins = Poppins({
+    subsets: ['latin'],
+    weight: ['300', '400', '500', '600', '700'],
+    variable: '--font-poppins'
+});
+
+const playfair = Playfair_Display({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+    variable: '--font-playfair'
+});
+const inter = Inter({
+    subsets: ['latin'],
+    weight: ['400', '500', '600', '700'],
+    variable: '--font-playfair'
+});
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -87,7 +102,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div className="flex justify-between items-center">
+                    <div className={`flex justify-between items-center ${inter.className}`}>
                         {/* Contact Info - Simplified */}
                         <div className="hidden sm:flex items-center space-x-6">
                             <div className="flex items-center space-x-1.5">
@@ -129,9 +144,9 @@ const Navbar = () => {
                                 <a href="#" className="p-1 rounded-full bg-green-100 hover:bg-green-200 transition-colors">
                                     <InstagramIcon className="w-3 h-3 text-green-700" />
                                 </a>
-                                <a href="#" className="p-1 rounded-full bg-red-100 hover:bg-red-200 transition-colors">
+                                {/* <a href="#" className="p-1 rounded-full bg-red-100 hover:bg-red-200 transition-colors">
                                     <LinkedInIcon className="w-3 h-3 text-red-700" />
-                                </a>
+                                </a> */}
                             </div>
                         </div>
                     </div>
@@ -139,7 +154,7 @@ const Navbar = () => {
             </div>
 
             {/* Enhanced Main Navbar with Indian Touch */}
-            <nav className={`${inter.className} sticky top-0 z-50 transition-all duration-300 ${isScrolled
+            <nav className={`${poppins.className} sticky top-0 z-50 transition-all duration-300 ${isScrolled
                 ? 'bg-white/95 backdrop-blur-md shadow-xl border-b-2 border-orange-200'
                 : 'bg-white shadow-lg border-b-2 border-orange-200'
                 }`}>
@@ -167,12 +182,12 @@ const Navbar = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {/* Enhanced Foundation Name with Hindi */}
+                                    {/* Enhanced Foundation Name with Beautiful Typography */}
                                     <div>
-                                        <h1 className="text-xl font-bold bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent group-hover:from-orange-700 group-hover:to-green-700 transition-all duration-300">
+                                        <h1 className={`${playfair.className} text-xl lg:text-2xl font-bold bg-gradient-to-r from-orange-600 via-orange-500 to-orange-600 bg-clip-text text-transparent  group-hover:cursor-pointer transition-all duration-300`}>
                                             Pandit Sachidanand
                                         </h1>
-                                        <p className="text-sm font-semibold bg-gradient-to-r from-orange-500 to-green-500 bg-clip-text text-transparent">
+                                        <p className={`${poppins.className} text-sm font-semibold bg-gradient-to-r from-green-500 to-green-500 bg-clip-text text-transparent`}>
                                             Welfare Foundation
                                         </p>
                                     </div>
@@ -187,7 +202,7 @@ const Navbar = () => {
                                     <button
                                         key={item.name}
                                         onClick={() => handleNavigation(item)}
-                                        className="relative px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 rounded-lg hover:bg-orange-50 group"
+                                        className={`${poppins.className} relative px-4 py-2 text-gray-700 hover:text-orange-600 font-medium transition-all duration-200 rounded-lg hover:bg-orange-50 group cursor-pointer`}
                                     >
                                         {item.name}
                                         <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-orange-500 to-green-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 rounded-full"></span>
@@ -199,7 +214,7 @@ const Navbar = () => {
                         {/* Enhanced Desktop CTA Buttons with Indian Touch */}
                         <div className="hidden lg:flex items-center space-x-3">
                             {/* Donate Button with Indian styling */}
-                            <button onClick={navigation.navigateToDonate} className="relative bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-600 hover:via-orange-700 hover:to-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 border border-orange-400">
+                            <button onClick={navigation.navigateToDonate} className={`${poppins.className} relative bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:from-orange-600 hover:via-orange-700 hover:to-red-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 border border-orange-400 cursor-pointer`}>
                                 <span className="flex items-center space-x-2">
                                     <HeartIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Donate Now</span>
@@ -208,7 +223,7 @@ const Navbar = () => {
                             </button>
 
                             {/* Join Us Button with Indian styling */}
-                            <button className="relative border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200 hover:shadow-md" onClick={navigation.navigateToMemberRegister}>
+                            <button className={`${poppins.className} relative border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200 hover:shadow-md cursor-pointer`} onClick={navigation.navigateToMemberRegister}>
                                 <span className="flex items-center space-x-2">
                                     <UsersIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Join Us</span>
@@ -255,7 +270,7 @@ const Navbar = () => {
                             <button
                                 key={item.name}
                                 onClick={() => handleNavigation(item)}
-                                className="group block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-100 rounded-xl font-medium transition-all duration-200 border border-transparent hover:border-orange-200"
+                                className={`${poppins.className} group block w-full text-left px-4 py-3 text-gray-700 hover:text-orange-600 hover:bg-orange-100 rounded-xl font-medium transition-all duration-200 border border-transparent hover:border-orange-200`}
                             >
                                 <div className="flex items-center justify-between">
                                     <span>{item.name}</span>
@@ -266,13 +281,13 @@ const Navbar = () => {
 
                         {/* Mobile CTA Buttons with Indian Touch */}
                         <div className="pt-6 space-y-3 border-t-2 border-orange-200">
-                            <button onClick={navigation.navigateToDonate} className="block w-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-orange-400">
+                            <button onClick={navigation.navigateToDonate} className={`${poppins.className} block w-full bg-gradient-to-r from-orange-500 via-orange-600 to-red-500 text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-200 border border-orange-400`}>
                                 <span className="flex items-center justify-center space-x-2">
                                     <HeartIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Donate Now</span>
                                 </span>
                             </button>
-                            <button onClick={navigation.navigateToMemberRegister} className="w-full border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200">
+                            <button onClick={navigation.navigateToMemberRegister} className={`${poppins.className} w-full border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200`}>
                                 <span className="flex items-center justify-center space-x-2">
                                     <UsersIcon className="w-4 h-4" strokeWidth={2} />
                                     <span>Join Our Team</span>
