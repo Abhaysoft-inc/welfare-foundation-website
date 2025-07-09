@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
+import dbConnect from '@/lib/mongodb';
 import Member from '@/models/Member';
 import OTP from '@/models/OTP';
 import bcrypt from 'bcryptjs';
@@ -24,7 +24,7 @@ export async function POST(request) {
       );
     }
 
-    await connectToDatabase();
+    await dbConnect();
 
     // Verify the token (OTP record ID) and ensure it's verified
     const otpRecord = await OTP.findById(token);

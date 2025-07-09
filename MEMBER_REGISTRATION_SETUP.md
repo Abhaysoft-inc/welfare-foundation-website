@@ -19,7 +19,7 @@ Create a `.env.local` file in the root directory with the following variables:
 
 ```bash
 # MongoDB Connection
-MONGODB_URI=mongodb://127.0.0.1:27017/welfare-foundation
+MONGODB_URI=mongodb://yourip/db
 # Or for MongoDB Atlas:
 # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/welfare-foundation?retryWrites=true&w=majority
 

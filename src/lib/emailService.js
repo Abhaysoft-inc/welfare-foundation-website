@@ -174,3 +174,86 @@ export const sendWelcomeEmail = async (email, memberData) => {
         throw error;
     }
 };
+
+// Send password reset OTP email
+export const sendPasswordResetEmail = async (email, otp, memberName = '') => {
+    const transporter = createTransporter();
+
+    const mailOptions = {
+        from: {
+            name: 'Pandit Sachidanand Welfare Foundation',
+            address: process.env.EMAIL_FROM
+        },
+        to: email,
+        subject: 'Password Reset OTP - Pandit Sachidanand Welfare Foundation',
+        html: `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Password Reset OTP</title>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background: linear-gradient(135deg, #dc2626, #f97316); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
+                    .content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
+                    .otp-box { background: white; border: 2px dashed #dc2626; padding: 20px; margin: 20px 0; text-align: center; border-radius: 8px; }
+                    .otp { font-size: 32px; font-weight: bold; color: #dc2626; letter-spacing: 8px; }
+                    .footer { text-align: center; margin-top: 20px; color: #666; font-size: 14px; }
+                    .logo { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+                    .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; color: #856404; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <div class="logo">🕉️ Pandit Sachidanand Welfare Foundation</div>
+                        <p style="margin: 0; opacity: 0.9;">सेवा परमो धर्मः</p>
+                    </div>
+                    
+                    <div class="content">
+                        <h2 style="color: #dc2626; margin-bottom: 20px;">Password Reset Request</h2>
+                        
+                        ${memberName ? `<p>Dear <strong>${memberName}</strong>,</p>` : '<p>Dear Member,</p>'}
+                        
+                        <p>We received a request to reset your password. Please use the OTP below to continue with the password reset process:</p>
+                        
+                        <div class="otp-box">
+                            <p style="margin: 0 0 10px 0; font-size: 16px; color: #666;">Your Password Reset OTP:</p>
+                            <div class="otp">${otp}</div>
+                            <p style="margin: 10px 0 0 0; font-size: 14px; color: #666;">Valid for 10 minutes</p>
+                        </div>
+                        
+                        <div class="warning">
+                            <strong>Security Notice:</strong> Never share your OTP with anyone. Our team will never ask for your OTP over phone or email. If you didn't request this password reset, please ignore this email.
+                        </div>
+                        
+                        <p style="margin-top: 30px;">
+                            If you have any questions or need assistance, please contact our support team.
+                        </p>
+                        
+                        <div class="footer">
+                            <p><strong>Pandit Sachidanand Welfare Foundation</strong></p>
+                            <p>Serving Humanity with Compassion</p>
+                            <p style="margin-top: 15px; font-size: 12px;">
+                                This is an automated message. Please do not reply to this email.<br>
+                                © 2025 Pandit Sachidanand Welfare Foundation. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            </html>
+        `
+    };
+
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Password reset email sent successfully:', info.messageId);
+        return { success: true, messageId: info.messageId };
+    } catch (error) {
+        console.error('Password reset email send error:', error);
+        throw error;
+    }
+};
