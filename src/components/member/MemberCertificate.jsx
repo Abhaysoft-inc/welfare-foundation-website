@@ -28,7 +28,11 @@ export default function MemberCertificate({ member }) {
 
         // Get the photo URL if available
         let photoUrl = '';
-        if (member?.photo) {
+        if (member?.photoUrl) {
+            // Use the Cloudinary URL from server response
+            photoUrl = member.photoUrl;
+        } else if (member?.photo) {
+            // Fallback for local file preview
             if (typeof member.photo === 'string') {
                 photoUrl = member.photo;
             } else {
@@ -42,7 +46,7 @@ export default function MemberCertificate({ member }) {
 
         // Prepare member data with fallbacks
         const memberName = member?.memberName || 'Member Name';
-        const memberId = generateMemberId();
+        const memberId = member?.membershipId || 'PSWF-XXX-XXXXX';
         const issuedDate = formatDate();
 
         // Print content with embedded SVG
@@ -375,18 +379,12 @@ export default function MemberCertificate({ member }) {
         printWindow.document.close();
     };
 
-    const generateMemberId = () => {
-        const timestamp = Date.now().toString().slice(-6);
-        const randomChars = Math.random().toString(36).substring(2, 5).toUpperCase();
-        return `PSWF-${randomChars}-${timestamp}`;
-    };
-
     const formatDate = () => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date().toLocaleDateString('en-IN', options);
     };
 
-    const memberId = generateMemberId();
+    const memberId = member?.membershipId || 'PSWF-XXX-XXXXX';
 
     // Certificate ID is generated in the component
 

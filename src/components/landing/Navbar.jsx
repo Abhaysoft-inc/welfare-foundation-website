@@ -12,7 +12,6 @@ import {
     HeartIcon,
     UsersIcon,
     ArrowRightIcon,
-    LotusIcon,
     OmIcon
 } from '../icons'
 import { useNavigation } from '../../hooks/useNavigation';

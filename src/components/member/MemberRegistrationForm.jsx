@@ -4,17 +4,17 @@ import { useState } from "react";
 export default function MemberRegistrationForm({ onSubmit }) {
     const [form, setForm] = useState({
         memberName: "",
-        fatherOrHusbandName: "",
         services: "",
-        presentAddress: "",
-        permanentAddress: "",
+        address: "",
         mobile: "",
-        aadhar: "",
         email: "",
+        password: "",
+        confirmPassword: "",
         photo: null
     });
     const [errors, setErrors] = useState({});
     const [photoPreview, setPhotoPreview] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -48,18 +48,66 @@ export default function MemberRegistrationForm({ onSubmit }) {
         if (!form.mobile.trim() || !/^\d{10}$/.test(form.mobile)) newErrors.mobile = "Valid 10-digit mobile required";
         if (!form.aadhar.trim() || !/^\d{12}$/.test(form.aadhar)) newErrors.aadhar = "Valid 12-digit Aadhar required";
         if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) newErrors.email = "Valid email required";
+        if (!form.password.trim() || form.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+        if (form.password !== form.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
         if (!form.photo) newErrors.photo = "Please upload your photo";
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const errs = validate();
         if (Object.keys(errs).length) {
             setErrors(errs);
             return;
         }
-        onSubmit(form);
+
+        setLoading(true);
+        
+        try {
+            // Create FormData for file upload
+            const formData = new FormData();
+            formData.append('memberName', form.memberName);
+            formData.append('fatherOrHusbandName', form.fatherOrHusbandName);
+            formData.append('services', form.services);
+            formData.append('presentAddress', form.presentAddress);
+            formData.append('permanentAddress', form.permanentAddress);
+            formData.append('mobile', form.mobile);
+            formData.append('aadhar', form.aadhar);
+            formData.append('email', form.email);
+            formData.append('password', form.password);
+            formData.append('photo', form.photo);
+
+            const response = await fetch('/api/member/register', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                // Handle specific conflict cases
+                if (response.status === 409 && data.action) {
+                    // Pass the action to parent component to handle redirection
+                    onSubmit({
+                        action: data.action,
+                        email: data.email || form.email,
+                        memberName: form.memberName,
+                        error: data.error
+                    });
+                    return;
+                }
+                throw new Error(data.error || 'Registration failed');
+            }
+
+            // Pass the registered member data to parent component
+            onSubmit(data.member);
+        } catch (error) {
+            console.error('Registration error:', error);
+            setErrors({ submit: error.message || 'Registration failed. Please try again.' });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -105,6 +153,18 @@ export default function MemberRegistrationForm({ onSubmit }) {
                 <input name="email" value={form.email} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" />
                 {errors.email && <p className="text-xs text-red-600">{errors.email}</p>}
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Password *</label>
+                    <input name="password" type="password" value={form.password} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" placeholder="At least 6 characters" />
+                    {errors.password && <p className="text-xs text-red-600">{errors.password}</p>}
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Confirm Password *</label>
+                    <input name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" placeholder="Re-enter password" />
+                    {errors.confirmPassword && <p className="text-xs text-red-600">{errors.confirmPassword}</p>}
+                </div>
+            </div>
             <div>
                 <label className="block text-sm font-medium text-gray-700">Photo *</label>
                 <div className="mt-1 flex items-center space-x-4">
@@ -136,7 +196,18 @@ export default function MemberRegistrationForm({ onSubmit }) {
                     </div>
                 </div>
             </div>
-            <button type="submit" className="w-full py-3 rounded bg-orange-500 text-white font-semibold hover:bg-orange-600">Continue</button>
+            {errors.submit && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                    <p className="text-sm text-red-600">{errors.submit}</p>
+                </div>
+            )}
+            <button 
+                type="submit" 
+                disabled={loading}
+                className="w-full py-3 rounded bg-orange-500 text-white font-semibold hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+                {loading ? 'Registering...' : 'Continue'}
+            </button>
         </form>
     );
 }
