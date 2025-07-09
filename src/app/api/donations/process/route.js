@@ -33,7 +33,7 @@ export async function POST(request) {
             const existingMember = await Member.findOne({ 
                 $or: [
                     { email: donorData.email },
-                    { mobile: donorData.phone }
+                    { mobile: donorData.mobile }
                 ]
             });
 
@@ -55,10 +55,13 @@ export async function POST(request) {
 
                 member = new Member({
                     memberId: newMemberId,
-                    name: donorData.name,
+                    fullName: donorData.fullName,
                     email: donorData.email,
-                    mobile: donorData.phone,
+                    mobile: donorData.mobile,
                     address: donorData.address,
+                    city: donorData.city,
+                    state: donorData.state,
+                    pincode: donorData.pincode,
                     password: hashedPassword,
                     membershipDate: new Date(),
                     status: 'active',
@@ -76,7 +79,7 @@ export async function POST(request) {
                         html: `
                             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                                 <h2 style="color: #ff6b35;">🙏 Welcome to Our Foundation Family!</h2>
-                                <p>Dear ${donorData.name},</p>
+                                <p>Dear ${donorData.fullName},</p>
                                 
                                 <p>Thank you for your generous donation! We have automatically created a member account for you to track your donations and stay connected with our activities.</p>
                                 
@@ -132,8 +135,8 @@ export async function POST(request) {
         const donation = new Donation({
             memberId: member._id,
             donationId,
-            amount: donorData.finalAmount,
-            purpose: donorData.purpose,
+            amount: donorData.donationAmount,
+            purpose: donorData.donationPurpose,
             paymentMode: paymentData.paymentMode || 'Online',
             transactionId: paymentData.transactionId,
             status: paymentData.status || 'Completed',
@@ -143,14 +146,14 @@ export async function POST(request) {
             gatewayOrderId: paymentData.orderId,
             gatewayPaymentId: paymentData.paymentId,
             gatewaySignature: paymentData.signature,
-            campaign: donorData.purpose,
+            campaign: donorData.donationPurpose,
             donorInfo: {
-                name: donorData.name,
-                email: donorData.email,
-                mobile: donorData.phone,
-                address: donorData.address,
-                panNumber: donorData.panNumber || '',
-                aadharNumber: donorData.aadharNumber || ''
+                name: donorData.fullName || member.fullName,
+                email: donorData.email || member.email,
+                mobile: donorData.mobile || member.mobile,
+                address: donorData.address || member.address,
+                panNumber: donorData.panCard || '',
+                aadharNumber: donorData.aadharCard || ''
             }
         });
 
@@ -164,20 +167,20 @@ export async function POST(request) {
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                         <h2 style="color: #28a745;">🙏 Thank You for Your Generous Donation!</h2>
-                        <p>Dear ${donorData.name},</p>
+                        <p>Dear ${donorData.fullName || member.fullName},</p>
                         
                         <p>We have successfully received your donation. May your generosity bring you abundant blessings.</p>
                         
                         <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px; margin: 20px 0;">
                             <h3 style="color: #495057; margin-top: 0;">Donation Details:</h3>
                             <p><strong>Donation ID:</strong> ${donationId}</p>
-                            <p><strong>Amount:</strong> ₹${donorData.finalAmount.toLocaleString('en-IN')}</p>
-                            <p><strong>Purpose:</strong> ${donorData.purpose}</p>
+                            <p><strong>Amount:</strong> ₹${donorData.donationAmount.toLocaleString('en-IN')}</p>
+                            <p><strong>Purpose:</strong> ${donorData.donationPurpose}</p>
                             <p><strong>Date:</strong> ${new Date().toLocaleDateString('en-IN')}</p>
                             <p><strong>Transaction ID:</strong> ${paymentData.transactionId}</p>
                         </div>
                         
-                        ${donorData.panNumber ? `
+                        ${donorData.panCard ? `
                             <div style="background-color: #d1ecf1; border: 1px solid #bee5eb; border-radius: 8px; padding: 15px; margin: 20px 0;">
                                 <p style="margin: 0; color: #0c5460;"><strong>📋 Tax Benefit:</strong> Your donation may be eligible for tax deduction under Section 80G. Please consult your tax advisor.</p>
                             </div>
@@ -222,7 +225,7 @@ export async function POST(request) {
             member: {
                 _id: member._id,
                 memberId: member.memberId,
-                name: member.name,
+                fullName: member.fullName,
                 email: member.email
             }
         };
