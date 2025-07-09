@@ -29,6 +29,24 @@ export async function POST(request) {
             );
         }
 
+        console.log('Member found:', {
+            email: member.email,
+            hasPassword: !!member.password,
+            passwordType: typeof member.password,
+            passwordLength: member.password ? member.password.length : 0
+        });
+
+        // Check if member has a password (for backward compatibility)
+        if (!member.password) {
+            return NextResponse.json(
+                { 
+                    error: 'Account needs password setup. Please contact administration or re-register.',
+                    action: 'contact_admin'
+                },
+                { status: 400 }
+            );
+        }
+
         // Check if member is verified
         if (!member.isVerified) {
             return NextResponse.json(
@@ -67,10 +85,8 @@ export async function POST(request) {
         const memberData = {
             membershipId: member.membershipId,
             memberName: member.memberName,
-            fatherOrHusbandName: member.fatherOrHusbandName,
             services: member.services,
-            presentAddress: member.presentAddress,
-            permanentAddress: member.permanentAddress,
+            address: member.address,
             mobile: member.mobile,
             email: member.email,
             photoUrl: member.photoUrl,

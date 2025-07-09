@@ -196,9 +196,8 @@ Response:
 ```javascript
 POST /api/member/register
 FormData: {
-  memberName, fatherOrHusbandName, services,
-  presentAddress, permanentAddress, mobile,
-  aadhar, email, password, photo
+  memberName, services, address, mobile,
+  email, password, photo
 }
 
 Response:

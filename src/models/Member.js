@@ -75,4 +75,9 @@ const memberSchema = new mongoose.Schema({
     timestamps: true
 });
 
-export default mongoose.models.Member || mongoose.model('Member', memberSchema);
+// Clear any existing model to ensure we use the updated schema
+if (mongoose.models.Member) {
+    delete mongoose.models.Member;
+}
+
+export default mongoose.model('Member', memberSchema);

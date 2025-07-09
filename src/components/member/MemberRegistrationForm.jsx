@@ -42,11 +42,8 @@ export default function MemberRegistrationForm({ onSubmit }) {
     const validate = () => {
         const newErrors = {};
         if (!form.memberName.trim()) newErrors.memberName = "Required";
-        if (!form.fatherOrHusbandName.trim()) newErrors.fatherOrHusbandName = "Required";
-        if (!form.presentAddress.trim()) newErrors.presentAddress = "Required";
-        if (!form.permanentAddress.trim()) newErrors.permanentAddress = "Required";
+        if (!form.address.trim()) newErrors.address = "Required";
         if (!form.mobile.trim() || !/^\d{10}$/.test(form.mobile)) newErrors.mobile = "Valid 10-digit mobile required";
-        if (!form.aadhar.trim() || !/^\d{12}$/.test(form.aadhar)) newErrors.aadhar = "Valid 12-digit Aadhar required";
         if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) newErrors.email = "Valid email required";
         if (!form.password.trim() || form.password.length < 6) newErrors.password = "Password must be at least 6 characters";
         if (form.password !== form.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
@@ -68,12 +65,9 @@ export default function MemberRegistrationForm({ onSubmit }) {
             // Create FormData for file upload
             const formData = new FormData();
             formData.append('memberName', form.memberName);
-            formData.append('fatherOrHusbandName', form.fatherOrHusbandName);
             formData.append('services', form.services);
-            formData.append('presentAddress', form.presentAddress);
-            formData.append('permanentAddress', form.permanentAddress);
+            formData.append('address', form.address);
             formData.append('mobile', form.mobile);
-            formData.append('aadhar', form.aadhar);
             formData.append('email', form.email);
             formData.append('password', form.password);
             formData.append('photo', form.photo);
@@ -118,35 +112,18 @@ export default function MemberRegistrationForm({ onSubmit }) {
                 {errors.memberName && <p className="text-xs text-red-600">{errors.memberName}</p>}
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700">Father's Name / Husband Name *</label>
-                <input name="fatherOrHusbandName" value={form.fatherOrHusbandName} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" />
-                {errors.fatherOrHusbandName && <p className="text-xs text-red-600">{errors.fatherOrHusbandName}</p>}
-            </div>
-            <div>
                 <label className="block text-sm font-medium text-gray-700">Services / Business</label>
                 <input name="services" value={form.services} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" />
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700">Present Address *</label>
-                <input name="presentAddress" value={form.presentAddress} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" />
-                {errors.presentAddress && <p className="text-xs text-red-600">{errors.presentAddress}</p>}
+                <label className="block text-sm font-medium text-gray-700">Address *</label>
+                <textarea name="address" value={form.address} onChange={handleChange} rows={3} className="mt-1 block w-full border rounded px-3 py-2" />
+                {errors.address && <p className="text-xs text-red-600">{errors.address}</p>}
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700">Permanent Address *</label>
-                <input name="permanentAddress" value={form.permanentAddress} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" />
-                {errors.permanentAddress && <p className="text-xs text-red-600">{errors.permanentAddress}</p>}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Mobile No *</label>
-                    <input name="mobile" value={form.mobile} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" maxLength={10} />
-                    {errors.mobile && <p className="text-xs text-red-600">{errors.mobile}</p>}
-                </div>
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Aadhar No *</label>
-                    <input name="aadhar" value={form.aadhar} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" maxLength={12} />
-                    {errors.aadhar && <p className="text-xs text-red-600">{errors.aadhar}</p>}
-                </div>
+                <label className="block text-sm font-medium text-gray-700">Mobile No *</label>
+                <input name="mobile" value={form.mobile} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" maxLength={10} />
+                {errors.mobile && <p className="text-xs text-red-600">{errors.mobile}</p>}
             </div>
             <div>
                 <label className="block text-sm font-medium text-gray-700">Email *</label>

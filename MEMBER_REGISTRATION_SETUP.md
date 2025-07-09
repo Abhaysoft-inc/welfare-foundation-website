@@ -69,13 +69,11 @@ Registers a new member with photo upload.
 
 **Request:** Form data with the following fields:
 - `memberName` (required)
-- `fatherOrHusbandName` (required)
 - `services` (optional)
-- `presentAddress` (required)
-- `permanentAddress` (required)
+- `address` (required)
 - `mobile` (required, 10 digits)
-- `aadhar` (required, 12 digits)
 - `email` (required)
+- `password` (required, min 6 characters)
 - `photo` (required, image file)
 
 **Response:**
@@ -100,18 +98,18 @@ Registers a new member with photo upload.
 ```javascript
 {
   memberName: String (required),
-  fatherOrHusbandName: String (required),
   services: String,
-  presentAddress: String (required),
-  permanentAddress: String (required),
+  address: String (required),
   mobile: String (required, 10 digits),
-  aadhar: String (required, 12 digits),
-  email: String (required),
+  email: String (required, unique),
+  password: String (required, min 6 chars, hashed),
   photoUrl: String (required),
   photoPublicId: String (required),
   membershipId: String (unique, auto-generated),
   registrationDate: Date (default: now),
   isVerified: Boolean (default: false),
+  memberStatus: String (enum: pending_verification, verified, suspended),
+  lastLoginAt: Date,
   timestamps: true
 }
 ```

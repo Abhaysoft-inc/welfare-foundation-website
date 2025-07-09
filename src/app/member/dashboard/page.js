@@ -123,10 +123,6 @@ export default function MemberDashboard() {
                                     <span className="text-sm text-gray-800">{memberData.memberName}</span>
                                 </div>
                                 <div className="flex">
-                                    <span className="w-32 text-sm font-medium text-gray-600">Father/Husband:</span>
-                                    <span className="text-sm text-gray-800">{memberData.fatherOrHusbandName}</span>
-                                </div>
-                                <div className="flex">
                                     <span className="w-32 text-sm font-medium text-gray-600">Services:</span>
                                     <span className="text-sm text-gray-800">{memberData.services || 'N/A'}</span>
                                 </div>
@@ -146,12 +142,8 @@ export default function MemberDashboard() {
                             <h2 className="text-xl font-semibold text-gray-800 mb-4">Address Information</h2>
                             <div className="space-y-3">
                                 <div>
-                                    <span className="block text-sm font-medium text-gray-600">Present Address:</span>
-                                    <span className="text-sm text-gray-800">{memberData.presentAddress}</span>
-                                </div>
-                                <div>
-                                    <span className="block text-sm font-medium text-gray-600">Permanent Address:</span>
-                                    <span className="text-sm text-gray-800">{memberData.permanentAddress}</span>
+                                    <span className="block text-sm font-medium text-gray-600">Address:</span>
+                                    <span className="text-sm text-gray-800">{memberData.address}</span>
                                 </div>
                             </div>
                         </div>

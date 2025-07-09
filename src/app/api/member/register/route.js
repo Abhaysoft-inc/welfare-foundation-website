@@ -16,12 +16,9 @@ export async function POST(request) {
         // Extract form fields
         const memberData = {
             memberName: formData.get('memberName'),
-            fatherOrHusbandName: formData.get('fatherOrHusbandName'),
             services: formData.get('services') || '',
-            presentAddress: formData.get('presentAddress'),
-            permanentAddress: formData.get('permanentAddress'),
+            address: formData.get('address'),
             mobile: formData.get('mobile'),
-            aadhar: formData.get('aadhar'),
             email: formData.get('email'),
             password: formData.get('password'),
         };
@@ -29,7 +26,7 @@ export async function POST(request) {
         const photoFile = formData.get('photo');
 
         // Validation
-        const requiredFields = ['memberName', 'fatherOrHusbandName', 'presentAddress', 'permanentAddress', 'mobile', 'aadhar', 'email', 'password'];
+        const requiredFields = ['memberName', 'address', 'mobile', 'email', 'password'];
         for (const field of requiredFields) {
             if (!memberData[field] || !memberData[field].trim()) {
                 return NextResponse.json(
@@ -55,14 +52,6 @@ export async function POST(request) {
             );
         }
 
-        // Validate Aadhar number
-        if (!/^\d{12}$/.test(memberData.aadhar)) {
-            return NextResponse.json(
-                { error: 'Aadhar number must be 12 digits' },
-                { status: 400 }
-            );
-        }
-
         // Validate email
         if (!/\S+@\S+\.\S+/.test(memberData.email)) {
             return NextResponse.json(
@@ -83,8 +72,7 @@ export async function POST(request) {
         const existingMember = await Member.findOne({
             $or: [
                 { email: memberData.email },
-                { mobile: memberData.mobile },
-                { aadhar: memberData.aadhar }
+                { mobile: memberData.mobile }
             ]
         });
 
@@ -94,8 +82,6 @@ export async function POST(request) {
                 errorMessage += 'email address';
             } else if (existingMember.mobile === memberData.mobile) {
                 errorMessage += 'mobile number';
-            } else if (existingMember.aadhar === memberData.aadhar) {
-                errorMessage += 'Aadhar number';
             }
             
             return NextResponse.json(
@@ -185,10 +171,8 @@ export async function POST(request) {
         const responseData = {
             membershipId: newMember.membershipId,
             memberName: newMember.memberName,
-            fatherOrHusbandName: newMember.fatherOrHusbandName,
             services: newMember.services,
-            presentAddress: newMember.presentAddress,
-            permanentAddress: newMember.permanentAddress,
+            address: newMember.address,
             mobile: newMember.mobile,
             email: newMember.email,
             photoUrl: newMember.photoUrl,
