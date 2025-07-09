@@ -21,9 +21,9 @@ export async function POST(request) {
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
         // Delete any existing OTPs for this email and purpose
-        await OTP.deleteMany({ 
-            email: email.toLowerCase(), 
-            purpose: 'member_registration' 
+        await OTP.deleteMany({
+            email: email.toLowerCase(),
+            purpose: 'member_registration'
         });
 
         // Create new OTP record

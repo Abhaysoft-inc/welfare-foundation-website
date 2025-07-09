@@ -1,8 +1,11 @@
 "use client";
 import { useState } from 'react';
 import { PhoneIcon, EmailIcon, LotusIcon } from '../icons';
+import { useNavigation } from '../../hooks/useNavigation';
+
 
 export default function ReachUs() {
+    const navigation = useNavigation();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -187,7 +190,7 @@ export default function ReachUs() {
                             Join us in our mission to create positive change in communities across India.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors shadow-lg">
+                            <button className="bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors shadow-lg cursor-pointer" onClick={navigation.navigateToMemberRegister}>
                                 Become a Volunteer
                             </button>
                             <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-orange-600 transition-colors">

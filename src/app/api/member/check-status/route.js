@@ -17,8 +17,8 @@ export async function POST(request) {
         }
 
         // Check if member exists
-        const member = await Member.findOne({ 
-            email: email.toLowerCase() 
+        const member = await Member.findOne({
+            email: email.toLowerCase()
         }).select('email memberName memberStatus isVerified membershipId');
 
         if (!member) {

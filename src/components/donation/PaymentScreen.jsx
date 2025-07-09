@@ -8,7 +8,7 @@ import {
     LotusIcon
 } from '../icons';
 
-export default function PaymentScreen({ donorData, onBack }) {
+export default function PaymentScreen({ donorData, onBack, isLoggedIn = false, memberData = null }) {
     const [paymentMethod, setPaymentMethod] = useState('upi');
     const [upiId, setUpiId] = useState('');
     const [cardDetails, setCardDetails] = useState({
@@ -19,6 +19,7 @@ export default function PaymentScreen({ donorData, onBack }) {
     });
     const [isProcessing, setIsProcessing] = useState(false);
     const [isPaymentComplete, setIsPaymentComplete] = useState(false);
+    const [paymentResult, setPaymentResult] = useState(null);
     const [errors, setErrors] = useState({});
 
     const handleUpiChange = (e) => {
@@ -123,17 +124,59 @@ export default function PaymentScreen({ donorData, onBack }) {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handlePayment = (e) => {
+    const handlePayment = async (e) => {
         e.preventDefault();
 
         if (validatePayment()) {
             setIsProcessing(true);
 
-            // Simulate payment processing
-            setTimeout(() => {
+            try {
+                // Simulate payment gateway processing
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Mock payment response
+                const mockPaymentResponse = {
+                    transactionId: `TXN${Date.now()}`,
+                    paymentId: `pay_${Math.random().toString(36).substring(2, 15)}`,
+                    orderId: `order_${Math.random().toString(36).substring(2, 15)}`,
+                    signature: `sig_${Math.random().toString(36).substring(2, 15)}`,
+                    status: 'Completed',
+                    paymentMode: paymentMethod === 'upi' ? 'UPI' : 'Credit Card'
+                };
+
+                // Process donation via API
+                const donationResponse = await fetch('/api/donations/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        donorData,
+                        paymentData: mockPaymentResponse,
+                        isLoggedIn,
+                        memberId: memberData?._id
+                    })
+                });
+
+                const result = await donationResponse.json();
+
+                if (!donationResponse.ok) {
+                    throw new Error(result.error || 'Payment processing failed');
+                }
+
                 setIsProcessing(false);
                 setIsPaymentComplete(true);
-            }, 2000);
+                
+                // Store payment result for success screen
+                setPaymentResult(result);
+
+            } catch (error) {
+                console.error('Payment processing error:', error);
+                setIsProcessing(false);
+                setErrors({ 
+                    payment: error.message || 'Payment failed. Please try again.' 
+                });
+            }
         }
     };
 

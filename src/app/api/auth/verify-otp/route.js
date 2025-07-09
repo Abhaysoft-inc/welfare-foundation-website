@@ -53,11 +53,11 @@ export async function POST(request) {
             // Increment attempts
             otpRecord.attempts += 1;
             await otpRecord.save();
-            
+
             const remainingAttempts = 3 - otpRecord.attempts;
             return NextResponse.json(
-                { 
-                    error: `Invalid OTP. ${remainingAttempts} attempts remaining.` 
+                {
+                    error: `Invalid OTP. ${remainingAttempts} attempts remaining.`
                 },
                 { status: 400 }
             );

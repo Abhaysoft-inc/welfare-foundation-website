@@ -5,7 +5,7 @@ import Member from '@/models/Member';
 export async function GET() {
     try {
         await dbConnect();
-        
+
         const members = await Member.find({})
             .select('memberName email membershipId registrationDate')
             .sort({ registrationDate: -1 })

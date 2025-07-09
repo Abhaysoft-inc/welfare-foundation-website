@@ -1,8 +1,11 @@
 "use client"
 import React from 'react'
 import { LotusIcon, OmIcon, HeartIcon } from '../icons'
+import { useNavigation } from '../../hooks/useNavigation';
 
 const IndianHeroSection = () => {
+
+    const navigation = useNavigation();
     return (
         <section className="relative min-h-screen bg-gradient-to-br from-orange-50 via-white to-green-50 overflow-hidden">
             {/* Traditional Indian Pattern Background */}
@@ -71,7 +74,7 @@ const IndianHeroSection = () => {
                             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </button>
 
-                        <button className="group relative border-3 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-8 py-3 rounded-2xl font-bold text-lg hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer">
+                        <button className="group relative border-3 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-8 py-3 rounded-2xl font-bold text-lg hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl cursor-pointer" onClick={navigation.navigateToMemberRegister}>
                             <span className="flex items-center space-x-3">
                                 {/* <LotusIcon className="w-5 h-5" /> */}
                                 <span>Become Member • सदस्य बनें</span>

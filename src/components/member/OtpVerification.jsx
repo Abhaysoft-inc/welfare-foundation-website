@@ -25,7 +25,7 @@ export default function OtpVerification({ target, memberData, onVerified }) {
     const sendOTP = async () => {
         setResending(true);
         setError("");
-        
+
         try {
             const response = await fetch('/api/auth/send-otp', {
                 method: 'POST',
@@ -64,7 +64,7 @@ export default function OtpVerification({ target, memberData, onVerified }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (otp.length !== 6) {
             setError("Please enter a 6-digit OTP");
             return;
@@ -130,9 +130,9 @@ export default function OtpVerification({ target, memberData, onVerified }) {
             <div className="mx-auto w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
                 <span className="text-2xl">📧</span>
             </div>
-            
+
             <h2 className="text-xl font-semibold text-gray-800 mb-2">Verify Your Email</h2>
-            
+
             <p className="text-gray-600 mb-4">
                 We've sent a 6-digit OTP to<br />
                 <span className="font-medium text-orange-600">{target}</span>
@@ -176,8 +176,8 @@ export default function OtpVerification({ target, memberData, onVerified }) {
                 )}
             </div>
 
-            <button 
-                type="submit" 
+            <button
+                type="submit"
                 disabled={loading || otp.length !== 6 || timeLeft === 0}
                 className="w-full py-3 rounded-lg bg-orange-500 text-white font-semibold hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
             >
@@ -194,9 +194,9 @@ export default function OtpVerification({ target, memberData, onVerified }) {
 
             <div className="pt-2 space-y-2">
                 <p className="text-sm text-gray-500">Didn't receive the email?</p>
-                <button 
-                    type="button" 
-                    onClick={sendOTP} 
+                <button
+                    type="button"
+                    onClick={sendOTP}
                     disabled={resending || timeLeft > 540} // Allow resend after 1 minute
                     className="text-sm text-orange-600 hover:underline disabled:text-gray-400 disabled:no-underline"
                 >
@@ -210,7 +210,7 @@ export default function OtpVerification({ target, memberData, onVerified }) {
                         </span>
                     ) : timeLeft > 540 ? `Resend in ${formatTime(timeLeft - 540)}` : 'Resend OTP'}
                 </button>
-                
+
                 <p className="text-xs text-gray-400 mt-2">
                     💡 Check your spam folder if you don't see the email
                 </p>

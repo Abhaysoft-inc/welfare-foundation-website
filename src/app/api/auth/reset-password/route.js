@@ -6,71 +6,71 @@ import bcrypt from 'bcryptjs';
 import { sendEmail } from '@/lib/emailService';
 
 export async function POST(request) {
-  try {
-    const { email, password, token } = await request.json();
+    try {
+        const { email, password, token } = await request.json();
 
-    if (!email || !password || !token) {
-      return NextResponse.json(
-        { error: 'Email, password, and verification token are required' },
-        { status: 400 }
-      );
-    }
+        if (!email || !password || !token) {
+            return NextResponse.json(
+                { error: 'Email, password, and verification token are required' },
+                { status: 400 }
+            );
+        }
 
-    // Validate password strength
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: 'Password must be at least 8 characters long' },
-        { status: 400 }
-      );
-    }
+        // Validate password strength
+        if (password.length < 8) {
+            return NextResponse.json(
+                { error: 'Password must be at least 8 characters long' },
+                { status: 400 }
+            );
+        }
 
-    await dbConnect();
+        await dbConnect();
 
-    // Verify the token (OTP record ID) and ensure it's verified
-    const otpRecord = await OTP.findById(token);
-    if (!otpRecord || 
-        otpRecord.email !== email.toLowerCase() || 
-        otpRecord.purpose !== 'password_reset' || 
-        !otpRecord.verified) {
-      return NextResponse.json(
-        { error: 'Invalid or expired verification token' },
-        { status: 400 }
-      );
-    }
+        // Verify the token (OTP record ID) and ensure it's verified
+        const otpRecord = await OTP.findById(token);
+        if (!otpRecord ||
+            otpRecord.email !== email.toLowerCase() ||
+            otpRecord.purpose !== 'password_reset' ||
+            !otpRecord.verified) {
+            return NextResponse.json(
+                { error: 'Invalid or expired verification token' },
+                { status: 400 }
+            );
+        }
 
-    // Check if OTP record has expired (even though it's verified)
-    if (otpRecord.expiresAt < new Date()) {
-      await OTP.deleteOne({ _id: otpRecord._id });
-      return NextResponse.json(
-        { error: 'Verification token has expired. Please start over.' },
-        { status: 400 }
-      );
-    }
+        // Check if OTP record has expired (even though it's verified)
+        if (otpRecord.expiresAt < new Date()) {
+            await OTP.deleteOne({ _id: otpRecord._id });
+            return NextResponse.json(
+                { error: 'Verification token has expired. Please start over.' },
+                { status: 400 }
+            );
+        }
 
-    // Find the member
-    const member = await Member.findOne({ email: email.toLowerCase() });
-    if (!member) {
-      return NextResponse.json(
-        { error: 'Member not found' },
-        { status: 404 }
-      );
-    }
+        // Find the member
+        const member = await Member.findOne({ email: email.toLowerCase() });
+        if (!member) {
+            return NextResponse.json(
+                { error: 'Member not found' },
+                { status: 404 }
+            );
+        }
 
-    // Hash the new password
-    const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+        // Hash the new password
+        const saltRounds = 12;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Update member's password
-    member.password = hashedPassword;
-    member.lastLogin = new Date(); // Update last login since they'll likely login after reset
-    await member.save();
+        // Update member's password
+        member.password = hashedPassword;
+        member.lastLogin = new Date(); // Update last login since they'll likely login after reset
+        await member.save();
 
-    // Delete the used OTP record
-    await OTP.deleteOne({ _id: otpRecord._id });
+        // Delete the used OTP record
+        await OTP.deleteOne({ _id: otpRecord._id });
 
-    // Send password reset confirmation email
-    const emailSubject = 'Password Reset Successful - Welfare Foundation';
-    const emailHtml = `
+        // Send password reset confirmation email
+        const emailSubject = 'Password Reset Successful - Welfare Foundation';
+        const emailHtml = `
       <!DOCTYPE html>
       <html>
       <head>
@@ -96,7 +96,7 @@ export async function POST(request) {
             </div>
             
             <p style="color: #666; line-height: 1.6; margin-bottom: 20px;">
-              Hello <strong>${member.fullName}</strong>,
+              Hello <strong>${member.memberName}</strong>,
             </p>
             <p style="color: #666; line-height: 1.6; margin-bottom: 20px;">
               Your password has been successfully reset for your Welfare Foundation account. 
@@ -136,23 +136,23 @@ export async function POST(request) {
       </html>
     `;
 
-    try {
-      await sendEmail(email, emailSubject, emailHtml);
-    } catch (emailError) {
-      console.error('Failed to send password reset confirmation email:', emailError);
-      // Don't fail the password reset if email fails
+        try {
+            await sendEmail(email, emailSubject, emailHtml);
+        } catch (emailError) {
+            console.error('Failed to send password reset confirmation email:', emailError);
+            // Don't fail the password reset if email fails
+        }
+
+        return NextResponse.json({
+            message: 'Password reset successfully',
+            success: true
+        });
+
+    } catch (error) {
+        console.error('Reset password error:', error);
+        return NextResponse.json(
+            { error: 'Failed to reset password. Please try again.' },
+            { status: 500 }
+        );
     }
-
-    return NextResponse.json({
-      message: 'Password reset successfully',
-      success: true
-    });
-
-  } catch (error) {
-    console.error('Reset password error:', error);
-    return NextResponse.json(
-      { error: 'Failed to reset password. Please try again.' },
-      { status: 500 }
-    );
-  }
 }

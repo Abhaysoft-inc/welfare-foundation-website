@@ -19,19 +19,19 @@ export default function LoginPage() {
         const verified = searchParams.get('verified');
         const email = searchParams.get('email');
         const message = searchParams.get('message');
-        
+
         if (verified === 'true') {
             setSuccessMessage('Email verified successfully! You can now login.');
         }
-        
+
         if (message === 'already_registered') {
             setSuccessMessage('You are already registered! Please login with your credentials.');
         }
-        
+
         if (message === 'password_reset') {
             setSuccessMessage('Password reset successfully! You can now login with your new password.');
         }
-        
+
         if (email) {
             setForm(prev => ({ ...prev, email }));
         }
@@ -62,7 +62,7 @@ export default function LoginPage() {
         }
 
         setLoading(true);
-        
+
         try {
             const response = await fetch('/api/member/login', {
                 method: 'POST',
@@ -108,19 +108,19 @@ export default function LoginPage() {
                         <h1 className="text-3xl font-bold text-orange-600 mb-2">Member Login</h1>
                         <p className="text-gray-600">Sign in to your Pandit Sachidanand Welfare Foundation account</p>
                     </div>
-                    
+
                     <div className="bg-white shadow-xl rounded-lg border border-orange-100">
                         <div className="h-2 bg-gradient-to-r from-orange-500 via-white to-green-500"></div>
-                        
+
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Email Address *</label>
-                                <input 
-                                    name="email" 
+                                <input
+                                    name="email"
                                     type="email"
-                                    value={form.email} 
-                                    onChange={handleChange} 
-                                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                                    value={form.email}
+                                    onChange={handleChange}
+                                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                                     placeholder="Enter your email"
                                 />
                                 {errors.email && <p className="text-xs text-red-600 mt-1">{errors.email}</p>}
@@ -128,12 +128,12 @@ export default function LoginPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Password *</label>
-                                <input 
-                                    name="password" 
+                                <input
+                                    name="password"
                                     type="password"
-                                    value={form.password} 
-                                    onChange={handleChange} 
-                                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                                    value={form.password}
+                                    onChange={handleChange}
+                                    className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                                     placeholder="Enter your password"
                                 />
                                 {errors.password && <p className="text-xs text-red-600 mt-1">{errors.password}</p>}
@@ -151,8 +151,8 @@ export default function LoginPage() {
                                 </div>
                             )}
 
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 disabled={loading}
                                 className="w-full py-3 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                             >
@@ -168,15 +168,15 @@ export default function LoginPage() {
                             </button>
 
                             <div className="flex items-center justify-between pt-4">
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     onClick={handleForgotPassword}
                                     className="text-sm text-orange-600 hover:underline"
                                 >
                                     Forgot Password?
                                 </button>
-                                <a 
-                                    href="/member/register" 
+                                <a
+                                    href="/member/register"
                                     className="text-sm text-orange-600 hover:underline"
                                 >
                                     Create Account

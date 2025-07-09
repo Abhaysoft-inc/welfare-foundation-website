@@ -60,7 +60,7 @@ export default function MemberRegistrationForm({ onSubmit }) {
         }
 
         setLoading(true);
-        
+
         try {
             // Create FormData for file upload
             const formData = new FormData();
@@ -178,8 +178,8 @@ export default function MemberRegistrationForm({ onSubmit }) {
                     <p className="text-sm text-red-600">{errors.submit}</p>
                 </div>
             )}
-            <button 
-                type="submit" 
+            <button
+                type="submit"
                 disabled={loading}
                 className="w-full py-3 rounded bg-orange-500 text-white font-semibold hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed"
             >

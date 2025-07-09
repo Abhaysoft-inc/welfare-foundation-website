@@ -14,12 +14,12 @@ export default function VerifyOtpPage() {
     useEffect(() => {
         const emailParam = searchParams.get('email');
         const nameParam = searchParams.get('name');
-        
+
         if (!emailParam) {
             router.push('/member/login');
             return;
         }
-        
+
         setEmail(emailParam);
         setMemberName(nameParam || '');
     }, [searchParams, router]);
@@ -42,13 +42,13 @@ export default function VerifyOtpPage() {
                         <h1 className="text-3xl font-bold text-orange-600 mb-2">Email Verification</h1>
                         <p className="text-gray-600">Complete your account verification to continue</p>
                     </div>
-                    
+
                     <div className="bg-white shadow-xl rounded-lg border border-orange-100">
                         <div className="h-2 bg-gradient-to-r from-orange-500 via-white to-green-500"></div>
-                        <OtpVerification 
-                            target={email} 
-                            memberData={{ memberName }} 
-                            onVerified={handleOtpVerified} 
+                        <OtpVerification
+                            target={email}
+                            memberData={{ memberName }}
+                            onVerified={handleOtpVerified}
                         />
                     </div>
                 </div>

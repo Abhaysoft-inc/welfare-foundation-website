@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '@/components/landing/Navbar';
 import Footer from '@/components/landing/Footer';
 import DonorForm from '@/components/donation/DonorForm';
@@ -9,6 +9,23 @@ import { LotusIcon, HeartIcon } from '@/components/icons';
 export default function DonatePage() {
     const [step, setStep] = useState(1); // 1 for donor form, 2 for payment
     const [donorData, setDonorData] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [memberData, setMemberData] = useState(null);
+
+    useEffect(() => {
+        // Check if user is logged in
+        const storedMemberData = localStorage.getItem('memberData');
+        if (storedMemberData) {
+            try {
+                const member = JSON.parse(storedMemberData);
+                setMemberData(member);
+                setIsLoggedIn(true);
+            } catch (error) {
+                console.error('Error parsing member data:', error);
+                localStorage.removeItem('memberData');
+            }
+        }
+    }, []);
 
     const handleDonorSubmit = (data) => {
         setDonorData(data);
@@ -64,11 +81,17 @@ export default function DonatePage() {
                             <div className="h-2 bg-gradient-to-r from-orange-500 via-white to-green-500"></div>
 
                             {step === 1 ? (
-                                <DonorForm onSubmit={handleDonorSubmit} />
+                                <DonorForm 
+                                    onSubmit={handleDonorSubmit} 
+                                    isLoggedIn={isLoggedIn}
+                                    memberData={memberData}
+                                />
                             ) : (
                                 <PaymentScreen
                                     donorData={donorData}
                                     onBack={handleBackToDonorForm}
+                                    isLoggedIn={isLoggedIn}
+                                    memberData={memberData}
                                 />
                             )}
                         </div>

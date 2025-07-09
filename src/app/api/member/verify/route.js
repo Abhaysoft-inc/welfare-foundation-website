@@ -19,7 +19,7 @@ export async function POST(request) {
         // Find and update the member
         const member = await Member.findOneAndUpdate(
             { email: email.toLowerCase() },
-            { 
+            {
                 isVerified: true,
                 memberStatus: 'verified'
             },

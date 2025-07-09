@@ -257,3 +257,27 @@ export const sendPasswordResetEmail = async (email, otp, memberName = '') => {
         throw error;
     }
 };
+
+// Generic email sending function
+export const sendEmail = async (email, subject, htmlContent) => {
+    const transporter = createTransporter();
+
+    const mailOptions = {
+        from: {
+            name: 'Pandit Sachidanand Welfare Foundation',
+            address: process.env.EMAIL_FROM
+        },
+        to: email,
+        subject: subject,
+        html: htmlContent
+    };
+
+    try {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully:', info.messageId);
+        return { success: true, messageId: info.messageId };
+    } catch (error) {
+        console.error('Email send error:', error);
+        throw error;
+    }
+};

@@ -12,7 +12,7 @@ export async function POST(request) {
 
         // Parse form data
         const formData = await request.formData();
-        
+
         // Extract form fields
         const memberData = {
             memberName: formData.get('memberName'),
@@ -83,9 +83,9 @@ export async function POST(request) {
             } else if (existingMember.mobile === memberData.mobile) {
                 errorMessage += 'mobile number';
             }
-            
+
             return NextResponse.json(
-                { 
+                {
                     error: errorMessage,
                     action: existingMember.isVerified ? 'login' : 'verify_otp',
                     email: existingMember.email
@@ -124,7 +124,7 @@ export async function POST(request) {
         };
 
         let membershipId = generateMembershipId();
-        
+
         // Ensure unique membership ID
         let existingIdCheck = await Member.findOne({ membershipId });
         while (existingIdCheck) {

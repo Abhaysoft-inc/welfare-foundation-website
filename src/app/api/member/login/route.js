@@ -18,8 +18,8 @@ export async function POST(request) {
         }
 
         // Find member
-        const member = await Member.findOne({ 
-            email: email.toLowerCase() 
+        const member = await Member.findOne({
+            email: email.toLowerCase()
         });
 
         if (!member) {
@@ -39,7 +39,7 @@ export async function POST(request) {
         // Check if member has a password (for backward compatibility)
         if (!member.password) {
             return NextResponse.json(
-                { 
+                {
                     error: 'Account needs password setup. Please contact administration or re-register.',
                     action: 'contact_admin'
                 },
@@ -50,7 +50,7 @@ export async function POST(request) {
         // Check if member is verified
         if (!member.isVerified) {
             return NextResponse.json(
-                { 
+                {
                     error: 'Email not verified. Please verify your email first.',
                     action: 'verify_otp',
                     email: member.email,

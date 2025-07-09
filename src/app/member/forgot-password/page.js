@@ -58,7 +58,7 @@ export default function ForgotPasswordPage() {
 
     const handleEmailSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) {
             setErrors({ email: "Please enter a valid email address" });
             return;
@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
 
         setLoading(true);
         setErrors({});
-        
+
         try {
             const data = await sendPasswordResetOTP(form.email);
             setSuccessMessage(`OTP sent successfully to ${form.email}`);
@@ -81,7 +81,7 @@ export default function ForgotPasswordPage() {
 
     const handleOTPSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (!form.otp.trim() || form.otp.length !== 6) {
             setErrors({ otp: "Please enter a 6-digit OTP" });
             return;
@@ -89,7 +89,7 @@ export default function ForgotPasswordPage() {
 
         setLoading(true);
         setErrors({});
-        
+
         try {
             const response = await fetch('/api/auth/verify-password-reset-otp', {
                 method: 'POST',
@@ -120,7 +120,7 @@ export default function ForgotPasswordPage() {
 
     const handlePasswordReset = async (e) => {
         e.preventDefault();
-        
+
         const newErrors = {};
         if (!form.newPassword.trim() || form.newPassword.length < 8) {
             newErrors.newPassword = "Password must be at least 8 characters";
@@ -136,7 +136,7 @@ export default function ForgotPasswordPage() {
 
         setLoading(true);
         setErrors({});
-        
+
         try {
             const response = await fetch('/api/auth/reset-password', {
                 method: 'POST',
@@ -187,10 +187,10 @@ export default function ForgotPasswordPage() {
                             {step === 3 && "Set your new password"}
                         </p>
                     </div>
-                    
+
                     <div className="bg-white shadow-xl rounded-lg border border-orange-100">
                         <div className="h-2 bg-gradient-to-r from-orange-500 via-white to-green-500"></div>
-                        
+
                         {/* Step 1: Email Input */}
                         {step === 1 && (
                             <form onSubmit={handleEmailSubmit} className="p-6 space-y-5">
@@ -203,19 +203,19 @@ export default function ForgotPasswordPage() {
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">Email Address *</label>
-                                    <input 
-                                        name="email" 
+                                    <input
+                                        name="email"
                                         type="email"
-                                        value={form.email} 
-                                        onChange={handleChange} 
-                                        className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                                        value={form.email}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                                         placeholder="Enter your registered email"
                                     />
                                     {errors.email && <p className="text-xs text-red-600 mt-1">{errors.email}</p>}
                                 </div>
 
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     disabled={loading}
                                     className="w-full py-3 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                                 >
@@ -251,17 +251,17 @@ export default function ForgotPasswordPage() {
                                 )}
 
                                 <div>
-                                    <input 
-                                        name="otp" 
+                                    <input
+                                        name="otp"
                                         type="text"
                                         maxLength={6}
-                                        value={form.otp} 
+                                        value={form.otp}
                                         onChange={(e) => {
                                             const value = e.target.value.replace(/\D/g, '');
                                             setForm({ ...form, otp: value });
                                             setErrors({ ...errors, otp: "" });
                                         }}
-                                        className="block w-full text-center border-2 border-gray-300 rounded-lg px-4 py-3 text-xl tracking-widest font-mono focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none" 
+                                        className="block w-full text-center border-2 border-gray-300 rounded-lg px-4 py-3 text-xl tracking-widest font-mono focus:border-orange-500 focus:ring-2 focus:ring-orange-200 outline-none"
                                         placeholder="000000"
                                     />
                                     {errors.otp && <p className="text-xs text-red-600 mt-1">{errors.otp}</p>}
@@ -273,8 +273,8 @@ export default function ForgotPasswordPage() {
                                     </p>
                                 )}
 
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     disabled={loading || form.otp.length !== 6 || timeLeft === 0}
                                     className="w-full py-3 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                                 >
@@ -282,8 +282,8 @@ export default function ForgotPasswordPage() {
                                 </button>
 
                                 <div className="text-center pt-4">
-                                    <button 
-                                        type="button" 
+                                    <button
+                                        type="button"
                                         onClick={handleResendOTP}
                                         disabled={timeLeft > 540} // Allow resend after 1 minute
                                         className="text-sm text-orange-600 hover:underline disabled:text-gray-400 disabled:no-underline"
@@ -315,12 +315,12 @@ export default function ForgotPasswordPage() {
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">New Password *</label>
-                                    <input 
-                                        name="newPassword" 
+                                    <input
+                                        name="newPassword"
                                         type="password"
-                                        value={form.newPassword} 
-                                        onChange={handleChange} 
-                                        className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                                        value={form.newPassword}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                                         placeholder="At least 8 characters"
                                     />
                                     {errors.newPassword && <p className="text-xs text-red-600 mt-1">{errors.newPassword}</p>}
@@ -328,12 +328,12 @@ export default function ForgotPasswordPage() {
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">Confirm New Password *</label>
-                                    <input 
-                                        name="confirmPassword" 
+                                    <input
+                                        name="confirmPassword"
                                         type="password"
-                                        value={form.confirmPassword} 
-                                        onChange={handleChange} 
-                                        className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                                        value={form.confirmPassword}
+                                        onChange={handleChange}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                                         placeholder="Re-enter new password"
                                     />
                                     {errors.confirmPassword && <p className="text-xs text-red-600 mt-1">{errors.confirmPassword}</p>}
@@ -345,8 +345,8 @@ export default function ForgotPasswordPage() {
                                     </div>
                                 )}
 
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     disabled={loading}
                                     className="w-full py-3 rounded-md bg-orange-500 text-white font-semibold hover:bg-orange-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                                 >

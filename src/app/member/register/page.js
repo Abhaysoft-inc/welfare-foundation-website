@@ -22,7 +22,7 @@ export default function RegisterPage() {
             setStep(2);
             return;
         }
-        
+
         if (data.action === 'login') {
             // Existing verified member - redirect to login
             router.push(`/member/login?email=${encodeURIComponent(data.email)}&message=already_registered`);
@@ -48,10 +48,10 @@ export default function RegisterPage() {
                         <h1 className="text-3xl font-bold text-orange-600 mb-2">Member Registration</h1>
                         <p className="text-gray-600">Join the Pandit Sachidanand Welfare Foundation as a member.</p>
                     </div>
-                    
+
                     <div className="bg-white shadow-xl rounded-lg border border-orange-100">
                         <div className="h-2 bg-gradient-to-r from-orange-500 via-white to-green-500"></div>
-                        
+
                         {step === 1 && (
                             <MemberRegistrationForm onSubmit={handleFormSubmit} />
                         )}

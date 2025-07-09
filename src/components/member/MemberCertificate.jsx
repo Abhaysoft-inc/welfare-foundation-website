@@ -3,54 +3,54 @@ import React, { useRef } from 'react';
 import { LotusIcon, OmIcon } from '../icons';
 
 export default function MemberCertificate({ member }) {
-    const certificateRef = useRef(null);
+  const certificateRef = useRef(null);
 
-    const handlePrint = () => {
-        // Create a new window specifically for printing
-        const printWindow = window.open('', '_blank', 'width=800,height=600');
+  const handlePrint = () => {
+    // Create a new window specifically for printing
+    const printWindow = window.open('', '_blank', 'width=800,height=600');
 
-        // Show loading indicator on button
-        const downloadButton = document.querySelector("[data-certificate-download]");
-        if (downloadButton) {
-            const originalText = downloadButton.innerHTML;
-            downloadButton.disabled = true;
-            downloadButton.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    // Show loading indicator on button
+    const downloadButton = document.querySelector("[data-certificate-download]");
+    if (downloadButton) {
+      const originalText = downloadButton.innerHTML;
+      downloadButton.disabled = true;
+      downloadButton.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg> Preparing...`;
 
-            // Reset button after a timeout
-            setTimeout(() => {
-                downloadButton.disabled = false;
-                downloadButton.innerHTML = originalText;
-            }, 3000);
+      // Reset button after a timeout
+      setTimeout(() => {
+        downloadButton.disabled = false;
+        downloadButton.innerHTML = originalText;
+      }, 3000);
+    }
+
+    // Get the photo URL if available
+    let photoUrl = '';
+    if (member?.photoUrl) {
+      // Use the Cloudinary URL from server response
+      photoUrl = member.photoUrl;
+    } else if (member?.photo) {
+      // Fallback for local file preview
+      if (typeof member.photo === 'string') {
+        photoUrl = member.photo;
+      } else {
+        try {
+          photoUrl = URL.createObjectURL(member.photo);
+        } catch (e) {
+          console.error("Could not create object URL for photo", e);
         }
+      }
+    }
 
-        // Get the photo URL if available
-        let photoUrl = '';
-        if (member?.photoUrl) {
-            // Use the Cloudinary URL from server response
-            photoUrl = member.photoUrl;
-        } else if (member?.photo) {
-            // Fallback for local file preview
-            if (typeof member.photo === 'string') {
-                photoUrl = member.photo;
-            } else {
-                try {
-                    photoUrl = URL.createObjectURL(member.photo);
-                } catch (e) {
-                    console.error("Could not create object URL for photo", e);
-                }
-            }
-        }
+    // Prepare member data with fallbacks
+    const memberName = member?.memberName || 'Member Name';
+    const memberId = member?.membershipId || 'PSWF-XXX-XXXXX';
+    const issuedDate = formatDate();
 
-        // Prepare member data with fallbacks
-        const memberName = member?.memberName || 'Member Name';
-        const memberId = member?.membershipId || 'PSWF-XXX-XXXXX';
-        const issuedDate = formatDate();
-
-        // Print content with embedded SVG
-        printWindow.document.write(`
+    // Print content with embedded SVG
+    printWindow.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
@@ -376,53 +376,53 @@ export default function MemberCertificate({ member }) {
       </html>
     `);
 
-        printWindow.document.close();
-    };
+    printWindow.document.close();
+  };
 
-    const formatDate = () => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date().toLocaleDateString('en-IN', options);
-    };
+  const formatDate = () => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date().toLocaleDateString('en-IN', options);
+  };
 
-    const memberId = member?.membershipId || 'PSWF-XXX-XXXXX';
+  const memberId = member?.membershipId || 'PSWF-XXX-XXXXX';
 
-    // Certificate ID is generated in the component
+  // Certificate ID is generated in the component
 
-    return (
-        <div className="p-8 flex flex-col items-center">
-            {/* Hidden reference div for certificate content - not visible to user */}
-            <div
-                ref={certificateRef}
-                className="hidden"
-            >
-                {/* Certificate content still exists but is hidden */}
-            </div>
+  return (
+    <div className="p-8 flex flex-col items-center">
+      {/* Hidden reference div for certificate content - not visible to user */}
+      <div
+        ref={certificateRef}
+        className="hidden"
+      >
+        {/* Certificate content still exists but is hidden */}
+      </div>
 
-            {/* Success message and download button */}
-            <div className="text-center max-w-lg mx-auto">
-                <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                </div>
-
-                <h2 className="text-2xl font-semibold text-gray-800 mb-2">Registration Complete!</h2>
-                <p className="text-gray-600 mb-6">
-                    Your membership has been successfully registered with ID: <span className="font-semibold">{memberId}</span>. You can now download your official membership certificate.
-                </p>
-
-                {/* Certificate Download Button */}
-                <button
-                    onClick={handlePrint}
-                    data-certificate-download
-                    className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-6 rounded-lg shadow-md transition-colors mx-auto"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Download Certificate
-                </button>
-            </div>
+      {/* Success message and download button */}
+      <div className="text-center max-w-lg mx-auto">
+        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
         </div>
-    );
+
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Registration Complete!</h2>
+        <p className="text-gray-600 mb-6">
+          Your membership has been successfully registered with ID: <span className="font-semibold">{memberId}</span>. You can now download your official membership certificate.
+        </p>
+
+        {/* Certificate Download Button */}
+        <button
+          onClick={handlePrint}
+          data-certificate-download
+          className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-6 rounded-lg shadow-md transition-colors mx-auto"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Download Certificate
+        </button>
+      </div>
+    </div>
+  );
 }

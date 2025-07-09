@@ -19,7 +19,7 @@ const memberSchema = new mongoose.Schema({
         type: String,
         required: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /^\d{10}$/.test(v);
             },
             message: 'Mobile number must be 10 digits'
@@ -32,7 +32,7 @@ const memberSchema = new mongoose.Schema({
         lowercase: true,
         unique: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /\S+@\S+\.\S+/.test(v);
             },
             message: 'Please enter a valid email'
