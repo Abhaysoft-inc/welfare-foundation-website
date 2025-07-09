@@ -12,9 +12,11 @@ import {
     HeartIcon,
     UsersIcon,
     ArrowRightIcon,
-    OmIcon
+    OmIcon,
+    UserIcon
 } from '../icons'
-import { useNavigation } from '../../hooks/useNavigation';
+import { useNavigation } from '../../hooks/useNavigation'
+import { isAuthenticated, getMemberData, logout, getProfileImageUrl, getInitials, getMemberDisplayName } from '../../lib/auth';
 
 const poppins = Poppins({
     subsets: ['latin'],
@@ -36,11 +38,37 @@ const inter = Inter({
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [member, setMember] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const navigation = useNavigation();
 
+    // Check authentication status
+    useEffect(() => {
+        const checkAuth = () => {
+            const loggedIn = isAuthenticated();
+            setIsLoggedIn(loggedIn);
+
+            if (loggedIn) {
+                const memberData = getMemberData();
+                setMember(memberData);
+            }
+        };
+
+        checkAuth();
+
+        // Listen for storage changes (when user logs in/out in another tab)
+        window.addEventListener('storage', checkAuth);
+
+        return () => {
+            window.removeEventListener('storage', checkAuth);
+        };
+    }, []);
+
     const handleNavigation = (item) => {
         setIsMobileMenuOpen(false); // Close mobile menu when navigating
+        setIsUserMenuOpen(false); // Close user menu when navigating
 
         switch (item.href) {
             case '#':
@@ -69,6 +97,18 @@ const Navbar = () => {
         }
     };
 
+    const handleLogout = () => {
+        logout();
+        setIsLoggedIn(false);
+        setMember(null);
+        setIsUserMenuOpen(false);
+    };
+
+    const handleDashboard = () => {
+        setIsUserMenuOpen(false);
+        navigation.navigateTo('/member/dashboard');
+    };
+
     // Handle scroll effect
     useEffect(() => {
         const handleScroll = () => {
@@ -77,6 +117,20 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Handle click outside to close user menu
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isUserMenuOpen && !event.target.closest('.user-menu-container')) {
+                setIsUserMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isUserMenuOpen]);
 
     const navigationItems = [
         { name: 'Home', href: '#' },
@@ -221,13 +275,78 @@ const Navbar = () => {
                                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-yellow-400/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
                             </button>
 
-                            {/* Join Us Button with Indian styling */}
-                            <button className={`${poppins.className} relative border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200 hover:shadow-md cursor-pointer`} onClick={navigation.navigateToMemberRegister}>
-                                <span className="flex items-center space-x-2">
-                                    <UsersIcon className="w-4 h-4" strokeWidth={2} />
-                                    <span>Join Us</span>
-                                </span>
-                            </button>
+                            {/* Member Profile or Join Us Button */}
+                            {isLoggedIn && member ? (
+                                <div className="relative user-menu-container">
+                                    <button
+                                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                        className={`${poppins.className} flex items-center space-x-3 bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-600 text-green-700 px-4 py-2.5 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200 hover:shadow-md cursor-pointer`}
+                                    >
+                                        {/* Profile Image or Avatar */}
+                                        <div className="w-8 h-8 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
+                                            {member.photoUrl || member.profileImage ? (
+                                                <img
+                                                    src={getProfileImageUrl(member)}
+                                                    alt={getMemberDisplayName(member)}
+                                                    className="w-full h-full object-cover"
+                                                    onError={(e) => {
+                                                        e.target.style.display = 'none';
+                                                        e.target.nextSibling.style.display = 'flex';
+                                                    }}
+                                                />
+                                            ) : null}
+                                            <div className={`w-full h-full flex items-center justify-center text-white font-bold text-sm ${(member.photoUrl || member.profileImage) ? 'hidden' : 'flex'}`}>
+                                                {getInitials(member)}
+                                            </div>
+                                        </div>
+
+                                        {/* Member Name */}
+                                        <span className="hidden sm:inline">{getMemberDisplayName(member)}</span>
+
+                                        {/* Dropdown Arrow */}
+                                        <svg
+                                            className={`w-4 h-4 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`}
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+
+                                    {/* Dropdown Menu */}
+                                    {isUserMenuOpen && (
+                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-50">                                        <div className="px-4 py-2 border-b border-gray-100">
+                                            <p className="text-sm font-semibold text-gray-900">{getMemberDisplayName(member)}</p>
+                                            <p className="text-xs text-gray-600">{member.email}</p>
+                                        </div>
+
+                                            <button
+                                                onClick={handleDashboard}
+                                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-150 flex items-center space-x-2"
+                                            >
+                                                <UserIcon className="w-4 h-4" />
+                                                <span>Dashboard</span>
+                                            </button>
+
+                                            <button
+                                                onClick={handleLogout}
+                                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-150"
+                                            >
+                                                Logout
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                /* Join Us Button with Indian styling */
+                                <button className={`${poppins.className} relative border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200 hover:shadow-md cursor-pointer`} onClick={navigation.navigateToMemberRegister}>
+                                    <span className="flex items-center space-x-2">
+                                        <UsersIcon className="w-4 h-4" strokeWidth={2} />
+                                        <span>Join Us</span>
+                                    </span>
+                                </button>
+                            )}
                         </div>
 
                         {/* Enhanced Mobile menu button with Indian Touch */}
@@ -286,12 +405,62 @@ const Navbar = () => {
                                     <span>Donate Now</span>
                                 </span>
                             </button>
-                            <button onClick={navigation.navigateToMemberRegister} className={`${poppins.className} w-full border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200`}>
-                                <span className="flex items-center justify-center space-x-2">
-                                    <UsersIcon className="w-4 h-4" strokeWidth={2} />
-                                    <span>Join Our Team</span>
-                                </span>
-                            </button>
+
+                            {/* Member Profile or Join Us Button for Mobile */}
+                            {isLoggedIn && member ? (
+                                <div className="space-y-2">
+                                    {/* Member Info */}
+                                    <div className="bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-600 px-4 py-3 rounded-xl">
+                                        <div className="flex items-center space-x-3">
+                                            <div className="w-10 h-10 rounded-full overflow-hidden bg-green-600 flex items-center justify-center">
+                                                {member.photoUrl || member.profileImage ? (
+                                                    <img
+                                                        src={getProfileImageUrl(member)}
+                                                        alt={getMemberDisplayName(member)}
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            e.target.style.display = 'none';
+                                                            e.target.nextSibling.style.display = 'flex';
+                                                        }}
+                                                    />
+                                                ) : null}
+                                                <div className={`w-full h-full flex items-center justify-center text-white font-bold ${(member.photoUrl || member.profileImage) ? 'hidden' : 'flex'}`}>
+                                                    {getInitials(member)}
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p className="font-semibold text-green-700">{getMemberDisplayName(member)}</p>
+                                                <p className="text-sm text-green-600">{member.email}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Mobile Action Buttons */}
+                                    <button
+                                        onClick={handleDashboard}
+                                        className={`${poppins.className} w-full bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 px-6 py-3 rounded-xl font-semibold border-2 border-blue-600 hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-700 hover:text-white transition-all duration-200`}
+                                    >
+                                        <span className="flex items-center justify-center space-x-2">
+                                            <UserIcon className="w-4 h-4" strokeWidth={2} />
+                                            <span>Dashboard</span>
+                                        </span>
+                                    </button>
+
+                                    <button
+                                        onClick={handleLogout}
+                                        className={`${poppins.className} w-full bg-gradient-to-r from-red-50 to-red-100 text-red-700 px-6 py-3 rounded-xl font-semibold border-2 border-red-600 hover:bg-gradient-to-r hover:from-red-600 hover:to-red-700 hover:text-white transition-all duration-200`}
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            ) : (
+                                <button onClick={navigation.navigateToMemberRegister} className={`${poppins.className} w-full border-2 border-green-600 bg-gradient-to-r from-green-50 to-green-100 text-green-700 px-6 py-3 rounded-xl font-semibold hover:bg-gradient-to-r hover:from-green-600 hover:to-green-700 hover:text-white transition-all duration-200`}>
+                                    <span className="flex items-center justify-center space-x-2">
+                                        <UsersIcon className="w-4 h-4" strokeWidth={2} />
+                                        <span>Join Our Team</span>
+                                    </span>
+                                </button>
+                            )}
 
                             {/* Mobile Social Links with Indian Touch */}
                             <div className="pt-4">

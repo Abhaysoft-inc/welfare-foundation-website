@@ -8,13 +8,13 @@ import { sendEmail } from '@/lib/emailService';
 export async function POST(request) {
     try {
         await connectDB();
-        
+
         const body = await request.json();
-        const { 
-            donorData, 
-            paymentData, 
-            isLoggedIn, 
-            memberId 
+        const {
+            donorData,
+            paymentData,
+            isLoggedIn,
+            memberId
         } = body;
 
         let member = null;
@@ -30,7 +30,7 @@ export async function POST(request) {
             }
         } else {
             // Guest user - check if account exists or create new one
-            const existingMember = await Member.findOne({ 
+            const existingMember = await Member.findOne({
                 $or: [
                     { email: donorData.email },
                     { mobile: donorData.mobile }
@@ -44,7 +44,7 @@ export async function POST(request) {
                 // Create new member account
                 isNewMember = true;
                 generatedPassword = Math.random().toString(36).slice(-8) + 'A1!'; // Random password with required chars
-                
+
                 // Generate member ID
                 const memberCount = await Member.countDocuments();
                 const newMemberId = `PSWF${new Date().getFullYear()}${String(memberCount + 1).padStart(4, '0')}`;
@@ -242,9 +242,9 @@ export async function POST(request) {
 
     } catch (error) {
         console.error('Donation processing error:', error);
-        return NextResponse.json({ 
+        return NextResponse.json({
             error: 'Failed to process donation',
-            details: error.message 
+            details: error.message
         }, { status: 500 });
     }
 }

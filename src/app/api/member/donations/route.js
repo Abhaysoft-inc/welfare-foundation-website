@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Donation from '@/models/Donation';
+import Member from '@/models/Member';
+import mongoose from 'mongoose';
 
 export async function GET(request) {
     try {
@@ -13,55 +15,27 @@ export async function GET(request) {
             return NextResponse.json({ error: 'Member ID is required' }, { status: 400 });
         }
 
+        let actualMemberId = memberId;
+
+        // Check if memberId is a valid MongoDB ObjectId
+        if (!mongoose.Types.ObjectId.isValid(memberId)) {
+            // If not a valid ObjectId, assume it's a membershipId and look up the member
+            const member = await Member.findOne({ membershipId: memberId }).select('_id');
+
+            if (!member) {
+                return NextResponse.json({ error: 'Member not found' }, { status: 404 });
+            }
+
+            actualMemberId = member._id;
+        }
+
         // Get donations for the member
-        const donations = await Donation.getByMemberId(memberId, {
+        const donations = await Donation.getByMemberId(actualMemberId, {
             limit: 100,
             sort: { donationDate: -1 }
         });
 
-        // If no donations found, return mock data for demo purposes
-        if (donations.length === 0) {
-            const mockDonations = [
-                {
-                    _id: 'mock1',
-                    donationId: 'DON-2025-001',
-                    amount: 5000,
-                    purpose: 'Education Support',
-                    paymentMode: 'UPI',
-                    transactionId: 'TXN123456789',
-                    status: 'Completed',
-                    donationDate: new Date('2025-01-15'),
-                    receiptGenerated: true,
-                    taxBenefit: true
-                },
-                {
-                    _id: 'mock2',
-                    donationId: 'DON-2025-002',
-                    amount: 2500,
-                    purpose: 'Medical Aid',
-                    paymentMode: 'Credit Card',
-                    transactionId: 'TXN987654321',
-                    status: 'Completed',
-                    donationDate: new Date('2025-02-10'),
-                    receiptGenerated: true,
-                    taxBenefit: true
-                },
-                {
-                    _id: 'mock3',
-                    donationId: 'DON-2024-015',
-                    amount: 1000,
-                    purpose: 'Food Distribution',
-                    paymentMode: 'Net Banking',
-                    transactionId: 'TXN456789123',
-                    status: 'Completed',
-                    donationDate: new Date('2024-12-20'),
-                    receiptGenerated: true,
-                    taxBenefit: true
-                }
-            ];
-
-            return NextResponse.json({ donations: mockDonations });
-        }
+        return NextResponse.json({ donations });
 
         return NextResponse.json({ donations });
 

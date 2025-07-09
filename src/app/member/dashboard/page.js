@@ -7,6 +7,7 @@ import MemberCertificate from "@/components/member/MemberCertificate";
 import MemberIdCard from "@/components/member/MemberIdCard";
 import DonationHistory from "@/components/member/DonationHistory";
 import MemberProfileEdit from "@/components/member/MemberProfileEdit";
+import { getMemberData, getMemberId } from "@/lib/auth";
 
 export default function MemberDashboard() {
     const router = useRouter();
@@ -17,22 +18,21 @@ export default function MemberDashboard() {
 
     useEffect(() => {
         // Get member data from localStorage
-        const storedData = localStorage.getItem('memberData');
-        if (!storedData) {
+        const member = getMemberData();
+        if (!member) {
             router.push('/member/login');
             return;
         }
 
-        try {
-            const member = JSON.parse(storedData);
-            setMemberData(member);
+        setMemberData(member);
 
-            // Load donation history from API
-            fetchDonations(member._id);
-        } catch (error) {
-            console.error('Error parsing member data:', error);
-            router.push('/member/login');
-            return;
+        // Load donation history from API
+        const memberId = getMemberId(member);
+        if (memberId) {
+            fetchDonations(memberId);
+        } else {
+            console.warn('No member ID found, skipping donation fetch');
+            setDonations([]);
         }
 
         setLoading(false);
@@ -113,8 +113,8 @@ export default function MemberDashboard() {
                                     <p className="text-gray-600">Member ID: {memberData.membershipId}</p>
                                     <div className="flex items-center mt-1">
                                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${memberData.isVerified
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-yellow-100 text-yellow-800'
+                                            ? 'bg-green-100 text-green-800'
+                                            : 'bg-yellow-100 text-yellow-800'
                                             }`}>
                                             {memberData.isVerified ? '✅ Verified' : '⏳ Pending Verification'}
                                         </span>
@@ -144,8 +144,8 @@ export default function MemberDashboard() {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
                                     className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium transition-colors ${activeTab === tab.id
-                                            ? 'border-b-2 border-orange-500 text-orange-600 bg-orange-50'
-                                            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                                        ? 'border-b-2 border-orange-500 text-orange-600 bg-orange-50'
+                                        : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                                         }`}
                                 >
                                     <span className="text-lg">{tab.icon}</span>

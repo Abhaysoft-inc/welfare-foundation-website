@@ -83,6 +83,7 @@ export async function POST(request) {
 
         // Return member data (excluding sensitive info)
         const memberData = {
+            _id: member._id,
             membershipId: member.membershipId,
             memberName: member.memberName,
             services: member.services,

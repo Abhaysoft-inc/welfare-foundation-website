@@ -169,6 +169,7 @@ export async function POST(request) {
 
         // Return success response with member data (excluding sensitive info)
         const responseData = {
+            _id: newMember._id,
             membershipId: newMember.membershipId,
             memberName: newMember.memberName,
             services: newMember.services,

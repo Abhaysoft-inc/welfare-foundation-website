@@ -17,7 +17,7 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
         donationAmount: '',
         donationPurpose: 'General',
         paymentType: 'one-time',
-        
+
         // Fields only for guest users
         fullName: '',
         email: '',
@@ -143,7 +143,7 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (validateForm()) {
             setIsSubmitting(true);
             try {
@@ -187,7 +187,7 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
                     {isLoggedIn ? 'Make a Donation' : 'Donor Information'}
                 </h2>
                 <p className="text-gray-600 mt-2">
-                    {isLoggedIn 
+                    {isLoggedIn
                         ? 'As a registered member, we only need a few additional details for your donation.'
                         : 'Please provide your details to proceed with the donation. A member account will be created for you.'
                     }
@@ -404,7 +404,7 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                                 Donation Amount *
                             </label>
-                            
+
                             {/* Predefined amounts */}
                             <div className="grid grid-cols-3 md:grid-cols-5 gap-2 mb-3">
                                 {predefinedAmounts.map(amount => (
@@ -412,11 +412,10 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
                                         key={amount}
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, donationAmount: amount.toString() }))}
-                                        className={`py-2 px-3 text-sm border rounded-md transition-colors ${
-                                            formData.donationAmount === amount.toString()
+                                        className={`py-2 px-3 text-sm border rounded-md transition-colors ${formData.donationAmount === amount.toString()
                                                 ? 'bg-orange-500 text-white border-orange-500'
                                                 : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                                        }`}
+                                            }`}
                                     >
                                         ₹{amount.toLocaleString('en-IN')}
                                     </button>
@@ -511,11 +510,10 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                            isSubmitting
+                        className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isSubmitting
                                 ? 'bg-orange-400 cursor-not-allowed'
                                 : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
-                        } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500`}
+                            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500`}
                     >
                         {isSubmitting ? (
                             <>

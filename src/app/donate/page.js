@@ -81,8 +81,8 @@ export default function DonatePage() {
                             <div className="h-2 bg-gradient-to-r from-orange-500 via-white to-green-500"></div>
 
                             {step === 1 ? (
-                                <DonorForm 
-                                    onSubmit={handleDonorSubmit} 
+                                <DonorForm
+                                    onSubmit={handleDonorSubmit}
                                     isLoggedIn={isLoggedIn}
                                     memberData={memberData}
                                 />
