@@ -185,6 +185,19 @@ export default function MemberRegistrationForm({ onSubmit }) {
             >
                 {loading ? 'Registering...' : 'Continue'}
             </button>
+
+            {/* Login Link */}
+            <div className="text-center pt-4 border-t border-gray-200 mt-6">
+                <p className="text-sm text-gray-600">
+                    Already have an account?{' '}
+                    <a
+                        href="/member/login"
+                        className="text-orange-600 hover:text-orange-700 font-medium hover:underline"
+                    >
+                        Login here
+                    </a>
+                </p>
+            </div>
         </form>
     );
 }
