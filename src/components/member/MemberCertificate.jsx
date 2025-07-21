@@ -1,6 +1,5 @@
 "use client";
 import React, { useRef } from 'react';
-import { LotusIcon, OmIcon } from '../icons';
 
 export default function MemberCertificate({ member }) {
   const certificateRef = useRef(null);
@@ -275,32 +274,8 @@ export default function MemberCertificate({ member }) {
                 
                 <!-- Certificate Header -->
                 <div class="certificate-header">
-                  <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px;">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 2c3 3 3 7.5 0 10.5 3-3 3-7.5 0-10.5Z"></path>
-                      <path d="M12 2c-3 3-3 7.5 0 10.5 -3-3-3-7.5 0-10.5Z"></path>
-                      <path d="M12 2c0 5 4 10 8 12-4-2-8-7-8-12Z"></path>
-                      <path d="M12 2c0 5-4 10-8 12 4-2 8-7 8-12Z"></path>
-                      <path d="M12 22c3-3 6-3 9-6-3 3-6 3-9 6Z"></path>
-                      <path d="M12 22c-3-3-6-3-9-6 3 3 6 3 9 6Z"></path>
-                      <path d="M19 11.5c-2 3-5 4.5-7 4.5 2-1 5-3 7-4.5Z"></path>
-                      <path d="M5 11.5c2 3 5 4.5 7 4.5-2-1-5-3-7-4.5Z"></path>
-                      <circle cx="12" cy="12.5" r="1"></circle>
-                    </svg>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 2a10 10 0 1 0 10 10 4 4 0 1 1-8 0 4 4 0 1 0 8 0"></path>
-                    </svg>
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 2c3 3 3 7.5 0 10.5 3-3 3-7.5 0-10.5Z"></path>
-                      <path d="M12 2c-3 3-3 7.5 0 10.5 -3-3-3-7.5 0-10.5Z"></path>
-                      <path d="M12 2c0 5 4 10 8 12-4-2-8-7-8-12Z"></path>
-                      <path d="M12 2c0 5-4 10-8 12 4-2 8-7 8-12Z"></path>
-                      <path d="M12 22c3-3 6-3 9-6-3 3-6 3-9 6Z"></path>
-                      <path d="M12 22c-3-3-6-3-9-6 3 3 6 3 9 6Z"></path>
-                      <path d="M19 11.5c-2 3-5 4.5-7 4.5 2-1 5-3 7-4.5Z"></path>
-                      <path d="M5 11.5c2 3 5 4.5 7 4.5-2-1-5-3-7-4.5Z"></path>
-                      <circle cx="12" cy="12.5" r="1"></circle>
-                    </svg>
+                  <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 15px;">
+                    <img src="/images/logo.jpg" alt="Pandit Sachidanand Welfare Foundation Logo" style="width: 80px; height: 80px; object-fit: contain; border-radius: 50%; border: 3px solid #f97316;" />
                   </div>
                   <h1 class="certificate-title">Certificate of Membership</h1>
                   <h2 class="certificate-subtitle">Pandit Sachidanand Welfare Foundation</h2>
@@ -389,29 +364,91 @@ export default function MemberCertificate({ member }) {
   // Certificate ID is generated in the component
 
   return (
-    <div className="p-8 flex flex-col items-center">
-      {/* Hidden reference div for certificate content - not visible to user */}
-      <div
-        ref={certificateRef}
-        className="hidden"
-      >
-        {/* Certificate content still exists but is hidden */}
+    <div className="space-y-8">
+      {/* Certificate Preview */}
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white border-8 border-orange-500 rounded-lg shadow-2xl p-8 relative">
+          {/* Decorative border */}
+          <div className="absolute inset-4 border-2 border-orange-200 rounded pointer-events-none"></div>
+          
+          {/* Certificate Header */}
+          <div className="text-center mb-8 relative z-10">
+            <div className="flex justify-center mb-4">
+              <div className="w-20 h-20 relative rounded-full border-4 border-orange-500 overflow-hidden bg-orange-50">
+                <img 
+                  src="/images/logo.jpg" 
+                  alt="Pandit Sachidanand Welfare Foundation Logo" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    console.log('Logo failed to load:', e);
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="w-full h-full hidden items-center justify-center absolute inset-0">
+                  <svg className="w-12 h-12 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <h1 className="text-4xl font-bold text-orange-600 mb-2">Certificate of Membership</h1>
+            <h2 className="text-xl text-orange-800">Pandit Sachidanand Welfare Foundation</h2>
+          </div>
+          
+          {/* Certificate Body */}
+          <div className="text-center space-y-6 relative z-10">
+            <p className="text-lg text-gray-700">This is to certify that</p>
+            
+            <h2 className="text-3xl font-bold text-gray-900 my-4">
+              {member?.memberName || 'Member Name'}
+            </h2>
+            
+            {/* Member Photo */}
+            {member?.photoUrl && (
+              <div className="flex justify-center my-6">
+                <img 
+                  src={member.photoUrl} 
+                  alt={member.memberName || 'Member'}
+                  className="w-24 h-24 object-cover rounded-full border-4 border-orange-300"
+                />
+              </div>
+            )}
+            
+            <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
+              <p>
+                has been accepted as a Member of the<br/>
+                <span className="font-semibold text-gray-900">Pandit Sachidanand Welfare Foundation</span><br/>
+                and is entitled to all rights and privileges of this membership.
+              </p>
+            </div>
+            
+            {/* Footer */}
+            <div className="flex justify-between items-end mt-12 pt-8">
+              <div className="text-left">
+                <p className="text-sm text-gray-600">Member ID:</p>
+                <p className="font-semibold text-gray-900">{memberId}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm text-gray-600">Date of Issue:</p>
+                <p className="font-semibold text-gray-900">{formatDate()}</p>
+              </div>
+            </div>
+          </div>
+          
+          {/* Watermark */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+            <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1">
+              <path d="M12 2c3 3 3 7.5 0 10.5 3-3 3-7.5 0-10.5Z"></path>
+              <path d="M12 2c-3 3-3 7.5 0 10.5 -3-3-3-7.5 0-10.5Z"></path>
+              <circle cx="12" cy="12.5" r="1"></circle>
+            </svg>
+          </div>
+        </div>
       </div>
 
-      {/* Success message and download button */}
-      <div className="text-center max-w-lg mx-auto">
-        <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-          </svg>
-        </div>
-
-        <h2 className="text-2xl font-semibold text-gray-800 mb-2">Registration Complete!</h2>
-        <p className="text-gray-600 mb-6">
-          Your membership has been successfully registered with ID: <span className="font-semibold">{memberId}</span>. You can now download your official membership certificate.
-        </p>
-
-        {/* Certificate Download Button */}
+      {/* Download Button */}
+      <div className="text-center">
         <button
           onClick={handlePrint}
           data-certificate-download

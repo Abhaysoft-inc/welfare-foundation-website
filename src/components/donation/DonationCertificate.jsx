@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef } from 'react';
-import { LotusIcon, OmIcon, RupeeIcon } from '../icons';
+import { LotusIcon, OmIcon, IndianRupeeIcon } from '../icons';
 
 export default function DonationCertificate({ donation }) {
   const certificateRef = useRef(null);

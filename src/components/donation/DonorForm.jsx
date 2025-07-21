@@ -4,7 +4,7 @@ import {
     UserIcon,
     EmailIcon,
     PhoneIcon,
-    RupeeIcon,
+    IndianRupeeIcon,
     HeartIcon,
     ArrowRightIcon
 } from '../icons';
@@ -394,7 +394,7 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
                 {/* Donation Details */}
                 <div className="bg-blue-50 p-6 rounded-lg">
                     <h3 className="text-lg font-medium text-gray-800 mb-4 flex items-center">
-                        <RupeeIcon className="w-5 h-5 mr-2 text-blue-600" />
+                        <IndianRupeeIcon className="w-5 h-5 mr-2 text-blue-600" />
                         Donation Details
                     </h3>
 
@@ -425,7 +425,7 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
                             {/* Custom amount input */}
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <RupeeIcon className="h-5 w-5 text-gray-400" />
+                                    <IndianRupeeIcon className="h-5 w-5 text-gray-400" />
                                 </div>
                                 <input
                                     type="text"

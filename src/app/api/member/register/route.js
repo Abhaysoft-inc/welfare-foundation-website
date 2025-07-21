@@ -136,17 +136,38 @@ export async function POST(request) {
         const saltRounds = 12;
         const hashedPassword = await bcrypt.hash(memberData.password, saltRounds);
 
+        // Handle referral logic
+        let referrerMember = null;
+        if (memberData.referredBy) {
+            // Find the referrer by membership ID
+            referrerMember = await Member.findOne({ membershipId: memberData.referredBy });
+            if (!referrerMember) {
+                return NextResponse.json(
+                    { error: 'Invalid referrer Member ID. Please check and try again.' },
+                    { status: 400 }
+                );
+            }
+        }
+
         // Create new member with photo URL and membership ID
         const newMember = new Member({
             ...memberData,
             password: hashedPassword,
             photoUrl: uploadResult.secure_url,
             photoPublicId: uploadResult.public_id,
-            membershipId
+            membershipId,
+            // Add referral information
+            referredBy: referrerMember ? referrerMember._id : null,
+            referredByMembershipId: referrerMember ? referrerMember.membershipId : null
         });
 
         // Save to database
         await newMember.save();
+
+        // Update referrer's referral count if exists
+        if (referrerMember) {
+            await Member.updateReferralCount(referrerMember._id);
+        }
 
         console.log('Member registered successfully:', {
             membershipId: newMember.membershipId,

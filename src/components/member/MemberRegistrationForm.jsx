@@ -10,11 +10,13 @@ export default function MemberRegistrationForm({ onSubmit }) {
         email: "",
         password: "",
         confirmPassword: "",
-        photo: null
+        photo: null,
+        referredBy: "" // Add referral field
     });
     const [errors, setErrors] = useState({});
     const [photoPreview, setPhotoPreview] = useState(null);
     const [loading, setLoading] = useState(false);
+
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -71,6 +73,9 @@ export default function MemberRegistrationForm({ onSubmit }) {
             formData.append('email', form.email);
             formData.append('password', form.password);
             formData.append('photo', form.photo);
+            if (form.referredBy.trim()) {
+                formData.append('referredBy', form.referredBy.trim());
+            }
 
             const response = await fetch('/api/member/register', {
                 method: 'POST',
@@ -129,6 +134,20 @@ export default function MemberRegistrationForm({ onSubmit }) {
                 <label className="block text-sm font-medium text-gray-700">Email *</label>
                 <input name="email" value={form.email} onChange={handleChange} className="mt-1 block w-full border rounded px-3 py-2" />
                 {errors.email && <p className="text-xs text-red-600">{errors.email}</p>}
+            </div>
+            <div>
+                <label className="block text-sm font-medium text-gray-700">Referred by (Member ID)</label>
+                <input
+                    name="referredBy"
+                    value={form.referredBy}
+                    onChange={handleChange}
+                    className="mt-1 block w-full border rounded px-3 py-2"
+                    placeholder="Enter referrer's Member ID (optional)"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                    If another member referred you, enter their Member ID (e.g., PSWF20241234)
+                </p>
+                {errors.referredBy && <p className="text-xs text-red-600">{errors.referredBy}</p>}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>

@@ -3,7 +3,7 @@ import connectDB from '@/lib/mongodb';
 import Member from '@/models/Member';
 import Donation from '@/models/Donation';
 import bcrypt from 'bcryptjs';
-import { sendEmail } from '@/lib/emailService';
+import { sendEmail, sendDonationEmail } from '@/lib/emailService';
 
 export async function POST(request) {
     try {
@@ -131,9 +131,9 @@ export async function POST(request) {
         // Generate donation ID
         const donationId = await Donation.generateDonationId();
 
-        // Create donation record
+        // Create donation record - support both member and public donations
         const donation = new Donation({
-            memberId: member._id,
+            memberId: member ? member._id : null, // Allow null for public donations
             donationId,
             amount: donorData.donationAmount,
             purpose: donorData.donationPurpose,
@@ -141,23 +141,42 @@ export async function POST(request) {
             transactionId: paymentData.transactionId,
             status: paymentData.status || 'Completed',
             donationDate: new Date(),
-            receiptGenerated: false,
+            receiptGenerated: true, // Auto-generate receipt via email
             taxBenefit: true,
             gatewayOrderId: paymentData.orderId,
             gatewayPaymentId: paymentData.paymentId,
             gatewaySignature: paymentData.signature,
             campaign: donorData.donationPurpose,
+            // Direct donor fields for easier access
+            donorName: donorData.fullName || (member ? member.memberName : ''),
+            donorEmail: donorData.email || (member ? member.email : ''),
+            donorPhone: donorData.mobile || (member ? member.mobile : ''),
+            donorAddress: donorData.address || (member ? member.address : ''),
+            donorPan: donorData.panCard || '',
+            // Legacy donorInfo field for backward compatibility
             donorInfo: {
-                name: donorData.fullName || member.fullName,
-                email: donorData.email || member.email,
-                mobile: donorData.mobile || member.mobile,
-                address: donorData.address || member.address,
+                name: donorData.fullName || (member ? member.memberName : ''),
+                email: donorData.email || (member ? member.email : ''),
+                mobile: donorData.mobile || (member ? member.mobile : ''),
+                address: donorData.address || (member ? member.address : ''),
                 panNumber: donorData.panCard || '',
                 aadharNumber: donorData.aadharCard || ''
             }
         });
 
         await donation.save();
+
+        // Send donation receipt and certificate via email
+        try {
+            const emailResult = await sendDonationEmail(donation);
+            if (emailResult.success) {
+                console.log('Donation email sent successfully:', emailResult.messageId);
+            } else {
+                console.error('Failed to send donation email:', emailResult.error);
+            }
+        } catch (emailError) {
+            console.error('Error sending donation email:', emailError);
+        }
 
         // Send donation confirmation email
         try {

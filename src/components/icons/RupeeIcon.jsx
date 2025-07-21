@@ -12,7 +12,11 @@ export default function RupeeIcon(props) {
             strokeLinejoin="round"
             {...props}
         >
-            <path d="M6 3h12M6 8h12M6 13h3M18 17l-4.35-5.8M9 21V8" />
+            {/* Correct Indian Rupee Symbol */}
+            <path d="M6 3h12" />
+            <path d="M6 8h12" />
+            <path d="m6 13 3.5 7 5.5-11" />
+            <path d="M6 13h3" />
         </svg>
     );
 }

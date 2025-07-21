@@ -4,7 +4,7 @@ const donationSchema = new mongoose.Schema({
     memberId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Member',
-        required: true,
+        required: false, // Make optional to support public donations
         index: true
     },
     donationId: {
@@ -97,27 +97,60 @@ const donationSchema = new mongoose.Schema({
         trim: true,
         default: 'General Fund'
     },
-    // Donor information (for tax receipts)
+    // Direct donor fields for easier queries (for public donations)
+    donorName: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    donorEmail: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true
+    },
+    donorPhone: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    donorAddress: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    donorPan: {
+        type: String,
+        trim: true,
+        uppercase: true,
+        validate: {
+            validator: function (v) {
+                return !v || /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(v);
+            },
+            message: 'Invalid PAN number format'
+        }
+    },
+    // Donor information (for tax receipts) - kept for backward compatibility
     donorInfo: {
         name: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         email: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
             lowercase: true
         },
         mobile: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         address: {
             type: String,
-            required: true,
+            required: false,
             trim: true
         },
         panNumber: {

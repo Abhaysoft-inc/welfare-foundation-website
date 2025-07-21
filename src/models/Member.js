@@ -70,10 +70,59 @@ const memberSchema = new mongoose.Schema({
     },
     lastLoginAt: {
         type: Date
+    },
+    // Referral system fields
+    referredBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Member',
+        default: null
+    },
+    referredByMembershipId: {
+        type: String,
+        default: null
+    },
+    referralCount: {
+        type: Number,
+        default: 0
+    },
+    // Admin system fields
+    role: {
+        type: String,
+        enum: ['member', 'admin', 'super_admin'],
+        default: 'member'
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    adminPermissions: {
+        viewAllDonations: { type: Boolean, default: false },
+        manageMembers: { type: Boolean, default: false },
+        manageSettings: { type: Boolean, default: false },
+        generateReports: { type: Boolean, default: false }
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Member',
+        default: null
     }
 }, {
     timestamps: true
 });
+
+// Static method to get referred members
+memberSchema.statics.getReferredMembers = function(memberId) {
+    return this.find({ referredBy: memberId })
+        .select('memberName email mobile membershipId registrationDate memberStatus')
+        .sort({ registrationDate: -1 });
+};
+
+// Static method to update referral count
+memberSchema.statics.updateReferralCount = async function(memberId) {
+    const count = await this.countDocuments({ referredBy: memberId });
+    await this.findByIdAndUpdate(memberId, { referralCount: count });
+    return count;
+};
 
 // Clear any existing model to ensure we use the updated schema
 if (mongoose.models.Member) {

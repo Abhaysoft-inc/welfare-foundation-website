@@ -281,3 +281,214 @@ export const sendEmail = async (email, subject, htmlContent) => {
         throw error;
     }
 };
+
+// Generate donation receipt HTML
+const generateDonationReceiptHTML = (donation) => {
+    return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Donation Receipt</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5; }
+            .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .header { background: linear-gradient(135deg, #ff6b35, #f7931e); color: white; padding: 30px; text-align: center; }
+            .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+            .subtitle { font-size: 16px; opacity: 0.9; }
+            .content { padding: 30px; }
+            .receipt-box { background: #f8f9fa; border-left: 4px solid #ff6b35; padding: 20px; margin: 20px 0; border-radius: 5px; }
+            .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+            .detail-label { font-weight: bold; color: #555; }
+            .detail-value { color: #333; }
+            .amount-highlight { font-size: 24px; font-weight: bold; color: #ff6b35; text-align: center; margin: 20px 0; }
+            .footer { background: #f8f9fa; padding: 20px; text-align: center; color: #666; font-size: 14px; }
+            .thank-you { font-size: 18px; color: #ff6b35; font-weight: bold; text-align: center; margin: 20px 0; }
+            .tax-note { background: #e8f4fd; border: 1px solid #bee5eb; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="logo">🪷 Prashant Seva Welfare Foundation</div>
+                <div class="subtitle">Tax Deductible Donation Receipt</div>
+            </div>
+            
+            <div class="content">
+                <div class="thank-you">Thank you for your generous donation!</div>
+                
+                <div class="receipt-box">
+                    <h3 style="margin-top: 0; color: #ff6b35;">Receipt Details</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Receipt Number:</span>
+                        <span class="detail-value">${donation.receiptNumber || donation.donationId}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Donation ID:</span>
+                        <span class="detail-value">${donation.donationId}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Date:</span>
+                        <span class="detail-value">${new Date(donation.donationDate).toLocaleDateString('en-IN')}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Donor Name:</span>
+                        <span class="detail-value">${donation.donorName}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Purpose:</span>
+                        <span class="detail-value">${donation.purpose}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Payment Mode:</span>
+                        <span class="detail-value">${donation.paymentMode}</span>
+                    </div>
+                    ${donation.transactionId ? `
+                    <div class="detail-row">
+                        <span class="detail-label">Transaction ID:</span>
+                        <span class="detail-value">${donation.transactionId}</span>
+                    </div>
+                    ` : ''}
+                </div>
+                
+                <div class="amount-highlight">
+                    Amount Donated: ₹${donation.amount.toLocaleString('en-IN')}
+                </div>
+                
+                <div class="tax-note">
+                    <strong>📋 Tax Benefits:</strong><br>
+                    This donation is eligible for tax deduction under Section 80G of the Income Tax Act, 1961. 
+                    Please retain this receipt for your tax filing purposes.
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>This is an automatically generated receipt.</p>
+                <p>Prashant Seva Welfare Foundation | Email: info@prashantsevaadmin.com</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+};
+
+// Generate donation certificate HTML
+const generateDonationCertificateHTML = (donation) => {
+    return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Donation Certificate</title>
+        <style>
+            body { font-family: 'Georgia', serif; margin: 0; padding: 20px; background-color: #f5f5f5; }
+            .certificate { max-width: 800px; margin: 0 auto; background: white; border: 8px solid #ff6b35; padding: 40px; text-align: center; position: relative; }
+            .certificate::before { content: ''; position: absolute; top: 15px; left: 15px; right: 15px; bottom: 15px; border: 2px solid #f7931e; }
+            .logo { font-size: 32px; margin-bottom: 20px; }
+            .title { font-size: 36px; font-weight: bold; color: #ff6b35; margin: 20px 0; text-transform: uppercase; letter-spacing: 2px; }
+            .content { font-size: 18px; line-height: 1.8; color: #333; margin: 30px 0; }
+            .name { font-size: 28px; font-weight: bold; color: #ff6b35; margin: 20px 0; text-decoration: underline; }
+            .amount { font-size: 24px; font-weight: bold; color: #333; margin: 20px 0; }
+            .signature { margin-top: 50px; display: flex; justify-content: space-between; }
+            .sig-line { border-top: 2px solid #333; width: 200px; padding-top: 10px; font-size: 14px; }
+        </style>
+    </head>
+    <body>
+        <div class="certificate">
+            <div class="logo">🪷</div>
+            <h1 style="font-size: 24px; color: #333; margin: 0;">PRASHANT SEVA WELFARE FOUNDATION</h1>
+            
+            <div class="title">Certificate of Appreciation</div>
+            
+            <div class="content">This certificate is presented to</div>
+            <div class="name">${donation.donorName}</div>
+            <div class="content">in grateful recognition of your generous donation of</div>
+            <div class="amount">₹${donation.amount.toLocaleString('en-IN')}</div>
+            <div class="content">towards <strong>${donation.purpose}</strong>.</div>
+            
+            <div class="content">
+                <strong>Donation ID:</strong> ${donation.donationId}<br>
+                <strong>Date:</strong> ${new Date(donation.donationDate).toLocaleDateString('en-IN')}
+            </div>
+            
+            <div class="signature">
+                <div class="sig-line">Authorized Signatory</div>
+                <div class="sig-line">President</div>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+};
+
+// Send donation receipt and certificate via email
+export const sendDonationEmail = async (donation) => {
+    try {
+        const transporter = createTransporter();
+
+        // Generate HTML content
+        const receiptHTML = generateDonationReceiptHTML(donation);
+        const certificateHTML = generateDonationCertificateHTML(donation);
+
+        const mailOptions = {
+            from: {
+                name: 'Prashant Seva Welfare Foundation',
+                address: process.env.EMAIL_FROM
+            },
+            to: donation.donorEmail,
+            subject: `Thank you for your donation! Receipt & Certificate - ${donation.donationId}`,
+            html: `
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2 style="color: #ff6b35;">🙏 Thank you for your generous donation!</h2>
+                    
+                    <p>Dear ${donation.donorName},</p>
+                    
+                    <p>We are deeply grateful for your donation of <strong>₹${donation.amount.toLocaleString('en-IN')}</strong> 
+                    towards <strong>${donation.purpose}</strong>.</p>
+                    
+                    <p><strong>Donation Details:</strong></p>
+                    <ul>
+                        <li>Donation ID: ${donation.donationId}</li>
+                        <li>Amount: ₹${donation.amount.toLocaleString('en-IN')}</li>
+                        <li>Date: ${new Date(donation.donationDate).toLocaleDateString('en-IN')}</li>
+                        <li>Purpose: ${donation.purpose}</li>
+                    </ul>
+                    
+                    <p><strong>Tax Benefits:</strong><br>
+                    Your donation is eligible for tax deduction under Section 80G. 
+                    Please find attached your official receipt and certificate.</p>
+                    
+                    <p>With sincere gratitude,<br>
+                    <strong>Prashant Seva Welfare Foundation</strong></p>
+                </div>
+            `,
+            attachments: [
+                {
+                    filename: `Donation_Receipt_${donation.donationId}.html`,
+                    content: receiptHTML,
+                    contentType: 'text/html'
+                },
+                {
+                    filename: `Donation_Certificate_${donation.donationId}.html`,
+                    content: certificateHTML,
+                    contentType: 'text/html'
+                }
+            ]
+        };
+
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Donation email sent successfully:', info.messageId);
+        
+        return {
+            success: true,
+            messageId: info.messageId
+        };
+
+    } catch (error) {
+        console.error('Error sending donation email:', error);
+        return {
+            success: false,
+            error: error.message
+        };
+    }
+};

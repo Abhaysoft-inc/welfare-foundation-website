@@ -1,6 +1,20 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { 
+    FaHome, 
+    FaUsers, 
+    FaUserPlus, 
+    FaCertificate, 
+    FaCog, 
+    FaHeart,
+    FaChartBar,
+    FaCheckCircle,
+    FaCalendarAlt,
+    FaUser,
+    FaSignOutAlt
+} from 'react-icons/fa';
+import { MdVerified, MdPending } from 'react-icons/md';
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
 import MemberCertificate from "@/components/member/MemberCertificate";
@@ -72,11 +86,11 @@ export default function MemberDashboard() {
     };
 
     const tabs = [
-        { id: 'overview', label: 'Overview', icon: '🏠' },
-        { id: 'certificate', label: 'Certificate', icon: '📜' },
-        { id: 'idcard', label: 'ID Card', icon: '🆔' },
-        { id: 'donations', label: 'Donations', icon: '💝' },
-        { id: 'profile', label: 'Edit Profile', icon: '⚙️' }
+        { id: 'overview', label: 'Overview', icon: <FaHome /> },
+        { id: 'certificate', label: 'Certificate', icon: <FaCertificate /> },
+        { id: 'idcard', label: 'ID Card', icon: <FaUser /> },
+        { id: 'donations', label: 'Donations', icon: <FaHeart /> },
+        { id: 'profile', label: 'Edit Profile', icon: <FaCog /> }
     ];
 
     if (loading || !memberData) {
@@ -128,9 +142,10 @@ export default function MemberDashboard() {
                                 </div>
                                 <button
                                     onClick={handleLogout}
-                                    className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm"
+                                    className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm"
                                 >
-                                    Logout
+                                    <FaSignOutAlt />
+                                    <span>Logout</span>
                                 </button>
                             </div>
                         </div>
@@ -163,7 +178,7 @@ export default function MemberDashboard() {
                                         <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-4 border border-green-200">
                                             <div className="flex items-center">
                                                 <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                                                    <span className="text-2xl text-white">✅</span>
+                                                    <FaCheckCircle className="text-xl text-white" />
                                                 </div>
                                                 <div className="ml-4">
                                                     <h3 className="font-semibold text-gray-800">Account Status</h3>
@@ -177,7 +192,7 @@ export default function MemberDashboard() {
                                         <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200">
                                             <div className="flex items-center">
                                                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                                                    <span className="text-2xl text-white">💝</span>
+                                                    <FaHeart className="text-xl text-white" />
                                                 </div>
                                                 <div className="ml-4">
                                                     <h3 className="font-semibold text-gray-800">Total Donations</h3>
@@ -191,7 +206,7 @@ export default function MemberDashboard() {
                                         <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg p-4 border border-orange-200">
                                             <div className="flex items-center">
                                                 <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
-                                                    <span className="text-2xl text-white">📅</span>
+                                                    <FaCalendarAlt className="text-xl text-white" />
                                                 </div>
                                                 <div className="ml-4">
                                                     <h3 className="font-semibold text-gray-800">Member Since</h3>
@@ -211,28 +226,36 @@ export default function MemberDashboard() {
                                                 onClick={() => setActiveTab('certificate')}
                                                 className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center"
                                             >
-                                                <div className="text-2xl mb-2">📜</div>
+                                                <div className="text-2xl mb-2 text-orange-500">
+                                                    <FaCertificate className="mx-auto" />
+                                                </div>
                                                 <div className="text-sm font-medium">Download Certificate</div>
                                             </button>
                                             <button
                                                 onClick={() => setActiveTab('idcard')}
                                                 className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center"
                                             >
-                                                <div className="text-2xl mb-2">🆔</div>
+                                                <div className="text-2xl mb-2 text-blue-500">
+                                                    <FaUser className="mx-auto" />
+                                                </div>
                                                 <div className="text-sm font-medium">Download ID Card</div>
                                             </button>
                                             <button
                                                 onClick={() => setActiveTab('donations')}
                                                 className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center"
                                             >
-                                                <div className="text-2xl mb-2">💝</div>
+                                                <div className="text-2xl mb-2 text-red-500">
+                                                    <FaHeart className="mx-auto" />
+                                                </div>
                                                 <div className="text-sm font-medium">View Donations</div>
                                             </button>
                                             <button
                                                 onClick={() => setActiveTab('profile')}
                                                 className="bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center"
                                             >
-                                                <div className="text-2xl mb-2">⚙️</div>
+                                                <div className="text-2xl mb-2 text-gray-500">
+                                                    <FaCog className="mx-auto" />
+                                                </div>
                                                 <div className="text-sm font-medium">Edit Profile</div>
                                             </button>
                                         </div>
@@ -246,7 +269,7 @@ export default function MemberDashboard() {
                                                 <div key={donation.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                                                     <div className="flex items-center space-x-3">
                                                         <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                                                            <span className="text-sm">💝</span>
+                                                            <FaHeart className="text-sm text-green-600" />
                                                         </div>
                                                         <div>
                                                             <p className="font-medium text-gray-800">Donation - {donation.purpose}</p>

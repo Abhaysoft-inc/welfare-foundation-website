@@ -17,6 +17,7 @@ export { default as EyeIcon } from './EyeIcon';
 export { default as ImageIcon } from './ImageIcon';
 export { default as ArrowLeftIcon } from './ArrowLeftIcon';
 export { default as RupeeIcon } from './RupeeIcon';
+export { default as IndianRupeeIcon } from './IndianRupeeIcon';
 export { default as CreditCardIcon } from './CreditCardIcon';
 export { default as CheckIcon } from './CheckIcon';
 export { default as UserIcon } from './UserIcon';

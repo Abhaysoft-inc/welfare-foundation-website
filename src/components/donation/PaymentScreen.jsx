@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
     CreditCardIcon,
     CheckIcon,
-    RupeeIcon,
+    IndianRupeeIcon,
     ArrowLeftIcon,
     LotusIcon
 } from '../icons';
@@ -149,17 +149,28 @@ export default function PaymentScreen({ donorData, onBack, isLoggedIn = false, m
             // Simulate payment processing
             await new Promise(resolve => setTimeout(resolve, 3000));
 
-            // Prepare donation data
+            // Generate mock transaction ID (in real implementation, this would come from payment gateway)
+            const transactionId = `TXN${Date.now()}${Math.floor(Math.random() * 1000)}`;
+            const orderId = `ORD${Date.now()}`;
+
+            // Prepare donation data for public API
             const donationPayload = {
-                ...donorData,
-                paymentMethod,
-                paymentDetails: paymentMethod === 'upi' ? { upiId } : cardDetails,
-                isLoggedIn,
-                memberData
+                donorName: donorData.fullName,
+                donorEmail: donorData.email,
+                donorPhone: donorData.mobile,
+                donorAddress: donorData.address || '',
+                donorPan: donorData.panCard || '',
+                amount: parseInt(donorData.donationAmount),
+                purpose: donorData.donationPurpose,
+                paymentMode: paymentMethod === 'upi' ? 'UPI' : 'Credit Card',
+                transactionId: transactionId,
+                orderId: orderId,
+                paymentId: `PAY${Date.now()}`,
+                signature: `SIG${Date.now()}`
             };
 
-            // Call the donation processing API
-            const response = await fetch('/api/donations/process', {
+            // Use public donation API instead of member-specific API
+            const response = await fetch('/api/donations/public', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -455,14 +466,15 @@ export default function PaymentScreen({ donorData, onBack, isLoggedIn = false, m
                     </div>
 
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                        <h3 className="font-medium text-blue-900 mb-2">What's Next?</h3>
+                        <h3 className="font-medium text-blue-900 mb-2">📧 Receipt & Certificate Sent!</h3>
                         <ul className="text-sm text-blue-800 space-y-1">
-                            <li>• A confirmation email has been sent to your email address</li>
-                            {!isLoggedIn && (
-                                <li>• Check your email for login credentials to access your donor dashboard</li>
+                            <li>• Official donation receipt has been sent to <strong>{donorData.email}</strong></li>
+                            <li>• Certificate of appreciation is also attached in the email</li>
+                            <li>• Both documents are ready for tax filing (Section 80G eligible)</li>
+                            <li>• Please check your email inbox (and spam folder if needed)</li>
+                            {paymentResult.donation?.emailSent === false && (
+                                <li className="text-orange-600">• Note: Email delivery may take a few minutes</li>
                             )}
-                            <li>• You can download your donation certificate below</li>
-                            <li>• Your donation is eligible for tax benefits under 80G</li>
                         </ul>
                     </div>
 
