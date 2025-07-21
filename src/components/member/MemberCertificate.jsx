@@ -370,14 +370,14 @@ export default function MemberCertificate({ member }) {
         <div className="bg-white border-8 border-orange-500 rounded-lg shadow-2xl p-8 relative">
           {/* Decorative border */}
           <div className="absolute inset-4 border-2 border-orange-200 rounded pointer-events-none"></div>
-          
+
           {/* Certificate Header */}
           <div className="text-center mb-8 relative z-10">
             <div className="flex justify-center mb-4">
               <div className="w-20 h-20 relative rounded-full border-4 border-orange-500 overflow-hidden bg-orange-50">
-                <img 
-                  src="/images/logo.jpg" 
-                  alt="Pandit Sachidanand Welfare Foundation Logo" 
+                <img
+                  src="/images/logo.jpg"
+                  alt="Pandit Sachidanand Welfare Foundation Logo"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     console.log('Logo failed to load:', e);
@@ -387,7 +387,7 @@ export default function MemberCertificate({ member }) {
                 />
                 <div className="w-full h-full hidden items-center justify-center absolute inset-0">
                   <svg className="w-12 h-12 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
                   </svg>
                 </div>
               </div>
@@ -395,34 +395,34 @@ export default function MemberCertificate({ member }) {
             <h1 className="text-4xl font-bold text-orange-600 mb-2">Certificate of Membership</h1>
             <h2 className="text-xl text-orange-800">Pandit Sachidanand Welfare Foundation</h2>
           </div>
-          
+
           {/* Certificate Body */}
           <div className="text-center space-y-6 relative z-10">
             <p className="text-lg text-gray-700">This is to certify that</p>
-            
+
             <h2 className="text-3xl font-bold text-gray-900 my-4">
               {member?.memberName || 'Member Name'}
             </h2>
-            
+
             {/* Member Photo */}
             {member?.photoUrl && (
               <div className="flex justify-center my-6">
-                <img 
-                  src={member.photoUrl} 
+                <img
+                  src={member.photoUrl}
                   alt={member.memberName || 'Member'}
                   className="w-24 h-24 object-cover rounded-full border-4 border-orange-300"
                 />
               </div>
             )}
-            
+
             <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
               <p>
-                has been accepted as a Member of the<br/>
-                <span className="font-semibold text-gray-900">Pandit Sachidanand Welfare Foundation</span><br/>
+                has been accepted as a Member of the<br />
+                <span className="font-semibold text-gray-900">Pandit Sachidanand Welfare Foundation</span><br />
                 and is entitled to all rights and privileges of this membership.
               </p>
             </div>
-            
+
             {/* Footer */}
             <div className="flex justify-between items-end mt-12 pt-8">
               <div className="text-left">
@@ -435,7 +435,7 @@ export default function MemberCertificate({ member }) {
               </div>
             </div>
           </div>
-          
+
           {/* Watermark */}
           <div className="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
             <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1">

@@ -21,6 +21,7 @@ export async function POST(request) {
             mobile: formData.get('mobile'),
             email: formData.get('email'),
             password: formData.get('password'),
+            referredBy: formData.get('referredBy') || null,
         };
 
         const photoFile = formData.get('photo');

@@ -39,7 +39,7 @@ export default function DonationsHistory() {
 
         try {
             const member = JSON.parse(memberData);
-            
+
             // Check admin status using client-side verification first
             if (member.role === 'admin' || member.role === 'super_admin' || member.isAdmin === true) {
                 setIsAdmin(true);
@@ -53,7 +53,7 @@ export default function DonationsHistory() {
             router.push('/member/login');
             return;
         }
-        
+
         setAuthLoading(false);
     };
 
@@ -64,12 +64,12 @@ export default function DonationsHistory() {
             const headers = {
                 'Content-Type': 'application/json'
             };
-            
+
             if (memberData) {
                 const member = JSON.parse(memberData);
                 headers['x-member-id'] = member._id || member.id;
             }
-            
+
             const response = await fetch('/api/donations/all', { headers });
             if (response.ok) {
                 const data = await response.json();
@@ -89,13 +89,13 @@ export default function DonationsHistory() {
         const donationDate = new Date(donation.donationDate);
         const startDate = filters.startDate ? new Date(filters.startDate) : null;
         const endDate = filters.endDate ? new Date(filters.endDate) : null;
-        
+
         if (startDate && donationDate < startDate) return false;
         if (endDate && donationDate > endDate) return false;
         if (filters.purpose && !donation.purpose.toLowerCase().includes(filters.purpose.toLowerCase())) return false;
         if (filters.minAmount && donation.amount < parseInt(filters.minAmount)) return false;
         if (filters.maxAmount && donation.amount > parseInt(filters.maxAmount)) return false;
-        
+
         return true;
     });
 
@@ -306,12 +306,11 @@ export default function DonationsHistory() {
                                                     })}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                                        donation.status === 'Completed' ? 'bg-green-100 text-green-800' :
-                                                        donation.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                                                        donation.status === 'Failed' ? 'bg-red-100 text-red-800' :
-                                                        'bg-gray-100 text-gray-800'
-                                                    }`}>
+                                                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${donation.status === 'Completed' ? 'bg-green-100 text-green-800' :
+                                                            donation.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                                                                donation.status === 'Failed' ? 'bg-red-100 text-red-800' :
+                                                                    'bg-gray-100 text-gray-800'
+                                                        }`}>
                                                         {donation.status}
                                                     </span>
                                                 </td>

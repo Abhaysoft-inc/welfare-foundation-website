@@ -123,18 +123,18 @@ export default function NewMemberRegistrationForm({ referrerMembershipId, onClos
                 <form onSubmit={handleSubmit} className="p-6 space-y-5">
                     <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
                         <p className="text-sm text-orange-800">
-                            <strong>Note:</strong> You are registering a new member as a referrer. 
+                            <strong>Note:</strong> You are registering a new member as a referrer.
                             Your Member ID ({referrerMembershipId}) will be recorded as the referrer.
                         </p>
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Member Name *</label>
-                        <input 
-                            name="memberName" 
-                            value={form.memberName} 
-                            onChange={handleChange} 
-                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                        <input
+                            name="memberName"
+                            value={form.memberName}
+                            onChange={handleChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                             placeholder="Enter full name"
                         />
                         {errors.memberName && <p className="text-xs text-red-600 mt-1">{errors.memberName}</p>}
@@ -142,23 +142,23 @@ export default function NewMemberRegistrationForm({ referrerMembershipId, onClos
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Services / Business</label>
-                        <input 
-                            name="services" 
-                            value={form.services} 
-                            onChange={handleChange} 
-                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                        <input
+                            name="services"
+                            value={form.services}
+                            onChange={handleChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                             placeholder="What services or business does this member provide?"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Address *</label>
-                        <textarea 
-                            name="address" 
-                            value={form.address} 
-                            onChange={handleChange} 
-                            rows={3} 
-                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                        <textarea
+                            name="address"
+                            value={form.address}
+                            onChange={handleChange}
+                            rows={3}
+                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                             placeholder="Enter complete address"
                         />
                         {errors.address && <p className="text-xs text-red-600 mt-1">{errors.address}</p>}
@@ -167,12 +167,12 @@ export default function NewMemberRegistrationForm({ referrerMembershipId, onClos
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Mobile No *</label>
-                            <input 
-                                name="mobile" 
-                                value={form.mobile} 
-                                onChange={handleChange} 
-                                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
-                                maxLength={10} 
+                            <input
+                                name="mobile"
+                                value={form.mobile}
+                                onChange={handleChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
+                                maxLength={10}
                                 placeholder="10-digit mobile number"
                             />
                             {errors.mobile && <p className="text-xs text-red-600 mt-1">{errors.mobile}</p>}
@@ -180,12 +180,12 @@ export default function NewMemberRegistrationForm({ referrerMembershipId, onClos
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Email *</label>
-                            <input 
-                                name="email" 
+                            <input
+                                name="email"
                                 type="email"
-                                value={form.email} 
-                                onChange={handleChange} 
-                                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
+                                value={form.email}
+                                onChange={handleChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
                                 placeholder="Enter email address"
                             />
                             {errors.email && <p className="text-xs text-red-600 mt-1">{errors.email}</p>}
@@ -194,11 +194,11 @@ export default function NewMemberRegistrationForm({ referrerMembershipId, onClos
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Referred by (Member ID)</label>
-                        <input 
-                            name="referredBy" 
-                            value={form.referredBy} 
-                            onChange={handleChange} 
-                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50 focus:ring-orange-500 focus:border-orange-500" 
+                        <input
+                            name="referredBy"
+                            value={form.referredBy}
+                            onChange={handleChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-50 focus:ring-orange-500 focus:border-orange-500"
                             placeholder="Referrer's Member ID"
                             readOnly
                         />
@@ -210,25 +210,25 @@ export default function NewMemberRegistrationForm({ referrerMembershipId, onClos
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Password *</label>
-                            <input 
-                                name="password" 
-                                type="password" 
-                                value={form.password} 
-                                onChange={handleChange} 
-                                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
-                                placeholder="At least 6 characters" 
+                            <input
+                                name="password"
+                                type="password"
+                                value={form.password}
+                                onChange={handleChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
+                                placeholder="At least 6 characters"
                             />
                             {errors.password && <p className="text-xs text-red-600 mt-1">{errors.password}</p>}
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Confirm Password *</label>
-                            <input 
-                                name="confirmPassword" 
-                                type="password" 
-                                value={form.confirmPassword} 
-                                onChange={handleChange} 
-                                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500" 
-                                placeholder="Re-enter password" 
+                            <input
+                                name="confirmPassword"
+                                type="password"
+                                value={form.confirmPassword}
+                                onChange={handleChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-orange-500 focus:border-orange-500"
+                                placeholder="Re-enter password"
                             />
                             {errors.confirmPassword && <p className="text-xs text-red-600 mt-1">{errors.confirmPassword}</p>}
                         </div>

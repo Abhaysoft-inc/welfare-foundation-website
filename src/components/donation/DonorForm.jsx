@@ -413,8 +413,8 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
                                         type="button"
                                         onClick={() => setFormData(prev => ({ ...prev, donationAmount: amount.toString() }))}
                                         className={`py-2 px-3 text-sm border rounded-md transition-colors ${formData.donationAmount === amount.toString()
-                                                ? 'bg-orange-500 text-white border-orange-500'
-                                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                                            ? 'bg-orange-500 text-white border-orange-500'
+                                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                                             }`}
                                     >
                                         ₹{amount.toLocaleString('en-IN')}
@@ -511,8 +511,8 @@ export default function DonorForm({ onSubmit, isLoggedIn = false, memberData = n
                         type="submit"
                         disabled={isSubmitting}
                         className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isSubmitting
-                                ? 'bg-orange-400 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+                            ? 'bg-orange-400 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
                             } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500`}
                     >
                         {isSubmitting ? (

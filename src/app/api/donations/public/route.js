@@ -126,7 +126,7 @@ export async function POST(request) {
 
     } catch (error) {
         console.error('Error processing public donation:', error);
-        
+
         // Handle specific MongoDB errors
         if (error.name === 'ValidationError') {
             const errorMessages = Object.values(error.errors).map(err => err.message);
@@ -144,7 +144,7 @@ export async function POST(request) {
         }
 
         return NextResponse.json(
-            { 
+            {
                 error: 'Failed to process donation',
                 details: process.env.NODE_ENV === 'development' ? error.message : undefined
             },

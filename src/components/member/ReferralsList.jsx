@@ -18,7 +18,7 @@ export default function ReferralsList({ memberId }) {
         try {
             setLoading(true);
             const response = await fetch(`/api/member/referrals?memberId=${memberId}`);
-            
+
             if (response.ok) {
                 const data = await response.json();
                 setReferrals(data.referrals || []);
@@ -77,8 +77,8 @@ export default function ReferralsList({ memberId }) {
 
                     <div className="grid gap-4">
                         {referrals.map((referral, index) => (
-                            <div 
-                                key={referral._id || index} 
+                            <div
+                                key={referral._id || index}
                                 className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
                             >
                                 <div className="flex items-center justify-between">
@@ -104,11 +104,10 @@ export default function ReferralsList({ memberId }) {
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <div className={`inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                            referral.isVerified 
-                                                ? 'bg-green-100 text-green-800' 
+                                        <div className={`inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${referral.isVerified
+                                                ? 'bg-green-100 text-green-800'
                                                 : 'bg-yellow-100 text-yellow-800'
-                                        }`}>
+                                            }`}>
                                             {referral.isVerified ? (
                                                 <>
                                                     <FaCheckCircle />
@@ -130,7 +129,7 @@ export default function ReferralsList({ memberId }) {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 {referral.address && (
                                     <div className="mt-3 text-sm text-gray-600">
                                         <span className="font-medium">Address:</span> {referral.address}

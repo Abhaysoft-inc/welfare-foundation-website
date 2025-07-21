@@ -111,14 +111,14 @@ const memberSchema = new mongoose.Schema({
 });
 
 // Static method to get referred members
-memberSchema.statics.getReferredMembers = function(memberId) {
+memberSchema.statics.getReferredMembers = function (memberId) {
     return this.find({ referredBy: memberId })
         .select('memberName email mobile membershipId registrationDate memberStatus')
         .sort({ registrationDate: -1 });
 };
 
 // Static method to update referral count
-memberSchema.statics.updateReferralCount = async function(memberId) {
+memberSchema.statics.updateReferralCount = async function (memberId) {
     const count = await this.countDocuments({ referredBy: memberId });
     await this.findByIdAndUpdate(memberId, { referralCount: count });
     return count;

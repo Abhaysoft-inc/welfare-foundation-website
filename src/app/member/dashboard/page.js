@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { 
-    FaHome, 
-    FaUsers, 
-    FaUserPlus, 
-    FaCertificate, 
-    FaCog, 
+import {
+    FaHome,
+    FaUsers,
+    FaUserPlus,
+    FaCertificate,
+    FaCog,
     FaHeart,
     FaChartBar,
     FaCheckCircle,
@@ -21,6 +21,8 @@ import MemberCertificate from "@/components/member/MemberCertificate";
 import MemberIdCard from "@/components/member/MemberIdCard";
 import DonationHistory from "@/components/member/DonationHistory";
 import MemberProfileEdit from "@/components/member/MemberProfileEdit";
+import NewMemberRegistrationForm from "@/components/member/NewMemberRegistrationForm";
+import ReferralsList from "@/components/member/ReferralsList";
 import { getMemberData, getMemberId } from "@/lib/auth";
 
 export default function MemberDashboard() {
@@ -29,6 +31,7 @@ export default function MemberDashboard() {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('overview');
     const [donations, setDonations] = useState([]);
+    const [showNewMemberForm, setShowNewMemberForm] = useState(false);
 
     useEffect(() => {
         // Get member data from localStorage
@@ -85,8 +88,21 @@ export default function MemberDashboard() {
         }
     };
 
+    const handleNewMemberSuccess = (newMember) => {
+        setShowNewMemberForm(false);
+        setActiveTab('overview');
+        // Show success message
+        alert(`Welcome email sent to ${newMember.memberName}! Their membership ID is ${newMember.membershipId}`);
+    };
+
+    const handleNewMemberClose = () => {
+        setShowNewMemberForm(false);
+    };
+
     const tabs = [
         { id: 'overview', label: 'Overview', icon: <FaHome /> },
+        { id: 'addmember', label: 'Add Member', icon: <FaUserPlus /> },
+        { id: 'referrals', label: 'My Referrals', icon: <FaUsers /> },
         { id: 'certificate', label: 'Certificate', icon: <FaCertificate /> },
         { id: 'idcard', label: 'ID Card', icon: <FaUser /> },
         { id: 'donations', label: 'Donations', icon: <FaHeart /> },
@@ -287,6 +303,34 @@ export default function MemberDashboard() {
                                 </div>
                             )}
 
+                            {activeTab === 'addmember' && (
+                                <div>
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-4">Add New Member</h3>
+                                    <p className="text-gray-600 mb-6">
+                                        Register a new member to Pandit Sachidanand Welfare Foundation. The new member will be automatically referred by you and will receive a welcome email.
+                                    </p>
+                                    <div className="text-center">
+                                        <button
+                                            onClick={() => setShowNewMemberForm(true)}
+                                            className="bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-6 rounded-lg shadow-md transition-colors flex items-center gap-2 mx-auto"
+                                        >
+                                            <FaUserPlus />
+                                            Register New Member
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTab === 'referrals' && (
+                                <div>
+                                    <h3 className="text-xl font-semibold text-gray-800 mb-4">My Referrals</h3>
+                                    <p className="text-gray-600 mb-6">
+                                        View all members you have referred to Pandit Sachidanand Welfare Foundation.
+                                    </p>
+                                    <ReferralsList memberId={memberData._id} />
+                                </div>
+                            )}
+
                             {activeTab === 'certificate' && (
                                 <div>
                                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Membership Certificate</h3>
@@ -337,6 +381,16 @@ export default function MemberDashboard() {
                     </div>
                 </div>
             </div>
+
+            {/* New Member Registration Modal */}
+            {showNewMemberForm && (
+                <NewMemberRegistrationForm
+                    referrerMembershipId={memberData.membershipId}
+                    onClose={handleNewMemberClose}
+                    onSuccess={handleNewMemberSuccess}
+                />
+            )}
+
             <Footer />
         </>
     );

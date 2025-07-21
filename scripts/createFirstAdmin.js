@@ -29,15 +29,15 @@ const memberSchema = new mongoose.Schema({
     membershipId: { type: String, unique: true },
     registrationDate: { type: Date, default: Date.now },
     isVerified: { type: Boolean, default: true },
-    memberStatus: { 
-        type: String, 
-        enum: ['pending_verification', 'verified', 'suspended'], 
-        default: 'verified' 
+    memberStatus: {
+        type: String,
+        enum: ['pending_verification', 'verified', 'suspended'],
+        default: 'verified'
     },
-    role: { 
-        type: String, 
-        enum: ['member', 'admin', 'super_admin'], 
-        default: 'super_admin' 
+    role: {
+        type: String,
+        enum: ['member', 'admin', 'super_admin'],
+        default: 'super_admin'
     },
     isAdmin: { type: Boolean, default: true },
     adminPermissions: {
@@ -72,11 +72,11 @@ const askPassword = (question) => {
         process.stdout.write(question);
         process.stdin.setRawMode(true);
         process.stdin.resume();
-        
+
         let password = '';
         process.stdin.on('data', (char) => {
             char = char.toString();
-            
+
             if (char === '\n' || char === '\r' || char === '\u0004') {
                 process.stdin.setRawMode(false);
                 process.stdin.pause();
@@ -101,12 +101,12 @@ const askPassword = (question) => {
 async function createFirstAdmin() {
     try {
         console.log('🚀 Creating First Admin for Welfare Foundation\n');
-        
+
         // Connect to MongoDB
         console.log('Connecting to MongoDB...');
         await mongoose.connect(MONGODB_URI);
         console.log('✅ Connected to MongoDB\n');
-        
+
         // Check if any admin already exists
         const existingAdmin = await Member.findOne({
             $or: [
@@ -115,67 +115,67 @@ async function createFirstAdmin() {
                 { isAdmin: true }
             ]
         });
-        
+
         if (existingAdmin) {
             console.log('⚠️  An admin user already exists:');
             console.log(`   Name: ${existingAdmin.memberName}`);
             console.log(`   Email: ${existingAdmin.email}`);
             console.log(`   Role: ${existingAdmin.role}`);
             console.log(`   Member ID: ${existingAdmin.membershipId}\n`);
-            
+
             const overwrite = await askQuestion('Do you want to create another admin? (y/N): ');
             if (overwrite.toLowerCase() !== 'y' && overwrite.toLowerCase() !== 'yes') {
                 console.log('Admin creation cancelled.');
                 process.exit(0);
             }
         }
-        
+
         // Collect admin information
         console.log('Please provide the following information for the admin user:\n');
-        
+
         const adminName = await askQuestion('Admin Name: ');
         const adminEmail = await askQuestion('Admin Email: ');
         const adminMobile = await askQuestion('Admin Mobile (10 digits): ');
         const adminAddress = await askQuestion('Admin Address: ');
         const adminPassword = await askPassword('Admin Password (will be hidden): ');
         const confirmPassword = await askPassword('Confirm Password: ');
-        
+
         // Validate inputs
         if (!adminName || !adminEmail || !adminMobile || !adminAddress || !adminPassword) {
             throw new Error('All fields are required');
         }
-        
+
         if (adminPassword !== confirmPassword) {
             throw new Error('Passwords do not match');
         }
-        
+
         if (!/^\d{10}$/.test(adminMobile)) {
             throw new Error('Mobile number must be 10 digits');
         }
-        
+
         if (!/\S+@\S+\.\S+/.test(adminEmail)) {
             throw new Error('Please enter a valid email');
         }
-        
+
         if (adminPassword.length < 6) {
             throw new Error('Password must be at least 6 characters');
         }
-        
+
         // Check if email already exists
         const existingMember = await Member.findOne({ email: adminEmail.toLowerCase() });
         if (existingMember) {
             throw new Error('A member with this email already exists');
         }
-        
+
         // Generate admin membership ID
         const adminCount = await Member.countDocuments({
             $or: [{ role: 'admin' }, { role: 'super_admin' }, { isAdmin: true }]
         });
         const membershipId = `PSWF${new Date().getFullYear()}${String(adminCount + 1).padStart(4, '0')}`;
-        
+
         // Hash password
         const hashedPassword = await bcrypt.hash(adminPassword, 10);
-        
+
         // Create admin user
         const adminUser = new Member({
             memberName: adminName,
@@ -198,9 +198,9 @@ async function createFirstAdmin() {
                 generateReports: true
             }
         });
-        
+
         await adminUser.save();
-        
+
         console.log('\n✅ Admin user created successfully!');
         console.log('\n📋 Admin Details:');
         console.log(`   Name: ${adminUser.memberName}`);
@@ -209,15 +209,15 @@ async function createFirstAdmin() {
         console.log(`   Member ID: ${adminUser.membershipId}`);
         console.log(`   Role: ${adminUser.role}`);
         console.log(`   Created: ${new Date().toLocaleString()}`);
-        
+
         console.log('\n🔐 Login Instructions:');
         console.log('1. Go to /member/login');
         console.log(`2. Use email: ${adminUser.email}`);
         console.log('3. Use the password you just created');
         console.log('4. Access admin features from the dashboard');
-        
+
         console.log('\n🎉 Setup complete! The admin can now manage the welfare foundation system.');
-        
+
     } catch (error) {
         console.error('\n❌ Error creating admin:', error.message);
         process.exit(1);

@@ -1,33 +1,35 @@
-import { connectDB } from '@/lib/mongodb';
-import { Member } from '@/models/Member';
+import dbConnect from '@/lib/mongodb';
+import Member from '@/models/Member';
 
 export async function GET(request) {
     try {
-        await connectDB();
-        
+        await dbConnect();
+
         const { searchParams } = new URL(request.url);
         const memberId = searchParams.get('memberId');
-        
+
         if (!memberId) {
             return Response.json({ error: 'Member ID is required' }, { status: 400 });
         }
 
-        // Find the member and populate their referrals
-        const member = await Member.findById(memberId).populate('referredMembers');
-        
+        // Check if member exists
+        const member = await Member.findById(memberId);
         if (!member) {
             return Response.json({ error: 'Member not found' }, { status: 404 });
         }
 
-        return Response.json({ 
-            success: true, 
-            referrals: member.referredMembers || [] 
+        // Get referred members using static method
+        const referredMembers = await Member.getReferredMembers(memberId);
+
+        return Response.json({
+            success: true,
+            referrals: referredMembers || []
         });
 
     } catch (error) {
         console.error('Error fetching referrals:', error);
-        return Response.json({ 
-            error: 'Failed to fetch referrals' 
+        return Response.json({
+            error: 'Failed to fetch referrals'
         }, { status: 500 });
     }
 }

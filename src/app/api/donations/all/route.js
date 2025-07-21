@@ -10,18 +10,18 @@ export async function GET(request) {
         // Check for admin authentication using proper database verification
         const authHeader = request.headers.get('authorization');
         const memberIdHeader = request.headers.get('x-member-id');
-        
+
         if (!memberIdHeader) {
             return NextResponse.json(
-                { 
-                    success: false, 
+                {
+                    success: false,
                     error: 'Authentication required',
                     message: 'Member ID is required for admin verification'
                 },
                 { status: 401 }
             );
         }
-        
+
         try {
             // Verify admin status from database
             const memberData = { _id: memberIdHeader };
@@ -31,8 +31,8 @@ export async function GET(request) {
             }
         } catch (adminError) {
             return NextResponse.json(
-                { 
-                    success: false, 
+                {
+                    success: false,
                     error: 'Admin access required',
                     message: 'Only administrators can view all donations'
                 },
@@ -120,8 +120,8 @@ export async function GET(request) {
     } catch (error) {
         console.error('Error fetching donations:', error);
         return NextResponse.json(
-            { 
-                success: false, 
+            {
+                success: false,
                 error: 'Failed to fetch donations',
                 details: process.env.NODE_ENV === 'development' ? error.message : undefined
             },

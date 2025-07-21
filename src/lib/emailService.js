@@ -478,7 +478,7 @@ export const sendDonationEmail = async (donation) => {
 
         const info = await transporter.sendMail(mailOptions);
         console.log('Donation email sent successfully:', info.messageId);
-        
+
         return {
             success: true,
             messageId: info.messageId
